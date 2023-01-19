@@ -20,20 +20,13 @@ public class AssociateBuilder {
                 .phone(faker.phoneNumber().cellPhone())
                 .email(faker.internet().emailAddress())
                 .profession(faker.company().profession())
-                .salary(BigDecimal.valueOf(10000))
+                .salary(BigDecimal.valueOf(10000).setScale(2))
                 .build();
     }
 
     public SaveAssociateRequest buildSaveAssociateWithInvalidBirthDate() {
         SaveAssociateRequest invalidAssociate = buildSaveAssociateRequest();
         invalidAssociate.setBirthDate(LocalDate.now().minusYears(17).toString());
-
-        return invalidAssociate;
-    }
-
-    public SaveAssociateRequest buildSaveAssociateWithNullBirthDate() {
-        SaveAssociateRequest invalidAssociate = buildSaveAssociateRequest();
-        invalidAssociate.setBirthDate(null);
 
         return invalidAssociate;
     }
@@ -45,34 +38,12 @@ public class AssociateBuilder {
         return invalidAssociate;
     }
 
-    public SaveAssociateRequest buildSaveAssociateWithNullSalary() {
-        SaveAssociateRequest invalidAssociate = buildSaveAssociateRequest();
-        invalidAssociate.setSalary(null);
-
-        return invalidAssociate;
-    }
-
     public SaveAssociateRequest buildSaveAssociateWithInvalidCpf() {
         SaveAssociateRequest invalidAssociate = buildSaveAssociateRequest();
         invalidAssociate.setCpf("12345678910");
 
         return invalidAssociate;
     }
-
-    public SaveAssociateRequest buildSaveAssociateWithEmptyCpf() {
-        SaveAssociateRequest invalidAssociate = buildSaveAssociateRequest();
-        invalidAssociate.setCpf(StringUtils.EMPTY);
-
-        return invalidAssociate;
-    }
-
-    public SaveAssociateRequest buildSaveAssociateWithNullCpf() {
-        SaveAssociateRequest invalidAssociate = buildSaveAssociateRequest();
-        invalidAssociate.setCpf(null);
-
-        return invalidAssociate;
-    }
-
     public SaveAssociateRequest buildSaveAssociateWithInvalidEmail() {
         SaveAssociateRequest invalidAssociate = buildSaveAssociateRequest();
         invalidAssociate.setEmail("anyEmail");
@@ -80,58 +51,26 @@ public class AssociateBuilder {
         return invalidAssociate;
     }
 
-    public SaveAssociateRequest buildSaveAssociateWithEmptyEmail() {
-        SaveAssociateRequest invalidAssociate = buildSaveAssociateRequest();
-        invalidAssociate.setEmail(StringUtils.EMPTY);
-
-        return invalidAssociate;
-    }
-
-    public SaveAssociateRequest buildSaveAssociateWithNullEmail() {
-        SaveAssociateRequest invalidAssociate = buildSaveAssociateRequest();
-        invalidAssociate.setEmail(null);
-
-        return invalidAssociate;
-    }
-
-    public SaveAssociateRequest buildSaveAssociateWithEmptyName() {
+    public SaveAssociateRequest buildSaveAssociateWithEmptyFields() {
         SaveAssociateRequest invalidAssociate = buildSaveAssociateRequest();
         invalidAssociate.setName(StringUtils.EMPTY);
-
-        return invalidAssociate;
-    }
-
-    public SaveAssociateRequest buildSaveAssociateWithNullName() {
-        SaveAssociateRequest invalidAssociate = buildSaveAssociateRequest();
-        invalidAssociate.setName(null);
-
-        return invalidAssociate;
-    }
-
-    public SaveAssociateRequest buildSaveAssociateWithEmptyPhone() {
-        SaveAssociateRequest invalidAssociate = buildSaveAssociateRequest();
+        invalidAssociate.setCpf(StringUtils.EMPTY);
         invalidAssociate.setPhone(StringUtils.EMPTY);
-
-        return invalidAssociate;
-    }
-
-    public SaveAssociateRequest buildSaveAssociateWithNullPhone() {
-        SaveAssociateRequest invalidAssociate = buildSaveAssociateRequest();
-        invalidAssociate.setPhone(null);
-
-        return invalidAssociate;
-    }
-
-    public SaveAssociateRequest buildSaveAssociateWithEmptyProfession() {
-        SaveAssociateRequest invalidAssociate = buildSaveAssociateRequest();
+        invalidAssociate.setEmail(StringUtils.EMPTY);
         invalidAssociate.setProfession(StringUtils.EMPTY);
 
         return invalidAssociate;
     }
 
-    public SaveAssociateRequest buildSaveAssociateWithNullProfession() {
+    public SaveAssociateRequest buildSaveAssociateWithNullFields() {
         SaveAssociateRequest invalidAssociate = buildSaveAssociateRequest();
+        invalidAssociate.setName(null);
+        invalidAssociate.setCpf(null);
+        invalidAssociate.setBirthDate(null);
+        invalidAssociate.setPhone(null);
+        invalidAssociate.setEmail(null);
         invalidAssociate.setProfession(null);
+        invalidAssociate.setSalary(null);
 
         return invalidAssociate;
     }
@@ -139,7 +78,7 @@ public class AssociateBuilder {
     public UpdateAssociatePaycheckRequest buildUpdateAssociateRequest() {
         return UpdateAssociatePaycheckRequest.builder()
                 .profession("Profissão atualizada")
-                .salary(BigDecimal.valueOf(5500))
+                .salary(BigDecimal.valueOf(5500).setScale(2))
                 .build();
     }
 

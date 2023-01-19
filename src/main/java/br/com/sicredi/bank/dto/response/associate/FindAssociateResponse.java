@@ -1,6 +1,7 @@
 package br.com.sicredi.bank.dto.response.associate;
 
 import br.com.sicredi.bank.dto.response.account.AccountResponse;
+import br.com.sicredi.bank.dto.response.address.AddressResponse;
 import br.com.sicredi.bank.dto.response.contract.ListContractsResponse;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
@@ -22,9 +23,12 @@ public class FindAssociateResponse {
     private String name;
     private String cpf;
     private String birthDate;
+    private String phone;
+    private String email;
     private String profession;
     private BigDecimal salary;
     private String lastPaycheck;
+    private List<AddressResponse> addresses;
     private List<AccountResponse> accounts;
     private List<ListContractsResponse> contracts;
 

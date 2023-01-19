@@ -24,7 +24,7 @@ public class FindAssociateTest {
     AssociateBuilder associateBuilder = new AssociateBuilder();
 
     @Test
-    @Tag("all")
+    @Tag("some")
     @Description("Deve buscar associado com sucesso")
     public void mustFindAssociateSuccessfully() {
         SaveAssociateRequest saveRequest = associateBuilder.buildSaveAssociateRequest();
@@ -47,7 +47,13 @@ public class FindAssociateTest {
         assertEquals(saveRequest.getName(), findResponse.getName());
         assertEquals(saveRequest.getCpf(), findResponse.getCpf());
         assertEquals(saveRequest.getBirthDate(), findResponse.getBirthDate());
+        assertEquals(saveRequest.getPhone(), findResponse.getPhone());
+        assertEquals(saveRequest.getEmail(), findResponse.getEmail());
         assertEquals(saveRequest.getProfession(), findResponse.getProfession());
+        assertEquals(saveRequest.getSalary(), findResponse.getSalary());
+        assertEquals(0, findResponse.getAddresses().size());
+        assertEquals(2, findResponse.getAccounts().size());
+        assertEquals(0, findResponse.getContracts().size());
 
         associateService.deleteAssociate(findResponse.getId())
                 .then()
@@ -57,7 +63,7 @@ public class FindAssociateTest {
     }
 
     @Test
-    @Tag("all")
+    @Tag("some")
     @Description("Deve não buscar associado com id inexistente")
     public void mustNotFindAssociateWithNonexistentId() {
         var invalidId = 16261837107330L;
