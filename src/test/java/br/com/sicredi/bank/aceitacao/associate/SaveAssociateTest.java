@@ -140,170 +140,40 @@ public class SaveAssociateTest {
 
     @Test
     @Tag("all")
-    @Description("Deve não salvar associado sem preencher nome")
-    public void mustNotSaveAssociateWithEmptyName() {
-        SaveAssociateRequest invalidRequest = associateBuilder.buildSaveAssociateWithEmptyName();
+    @Description("Deve não salvar associado sem preencher campos obrigatórios")
+    public void mustNotSaveAssociateWithEmptyFields() {
+        SaveAssociateRequest invalidRequest = associateBuilder.buildSaveAssociateWithEmptyFields();
 
         associateService.saveAssociate(Utils.convertSaveAssociateRequestToJson(invalidRequest))
                 .then()
                     .log().all()
                     .statusCode(HttpStatus.SC_BAD_REQUEST)
                     .body(containsString("Nome não pode ser vazio."))
-        ;
-    }
-
-    @Test
-    @Tag("all")
-    @Description("Deve não salvar associado sem preencher cpf")
-    public void mustNotSaveAssociateWithEmptyCpf() {
-        SaveAssociateRequest invalidRequest = associateBuilder.buildSaveAssociateWithEmptyCpf();
-
-        associateService.saveAssociate(Utils.convertSaveAssociateRequestToJson(invalidRequest))
-                .then()
-                .log().all()
-                .statusCode(HttpStatus.SC_BAD_REQUEST)
-                .body(containsString("CPF não pode ser vazio."))
-                .body(containsString("CPF inválido."))
-        ;
-    }
-
-    @Test
-    @Tag("all")
-    @Description("Deve não salvar associado sem preencher telefone")
-    public void mustNotSaveAssociateWithEmptyPhone() {
-        SaveAssociateRequest invalidRequest = associateBuilder.buildSaveAssociateWithEmptyPhone();
-
-        associateService.saveAssociate(Utils.convertSaveAssociateRequestToJson(invalidRequest))
-                .then()
-                    .log().all()
-                    .statusCode(HttpStatus.SC_BAD_REQUEST)
+                    .body(containsString("CPF não pode ser vazio."))
+                    .body(containsString("CPF inválido."))
                     .body(containsString("Telefone não pode ser vazio."))
-        ;
-    }
-
-    @Test
-    @Tag("all")
-    @Description("Deve não salvar associado sem preencher email")
-    public void mustNotSaveAssociateWithEmptyEmail() {
-        SaveAssociateRequest invalidRequest = associateBuilder.buildSaveAssociateWithEmptyEmail();
-
-        associateService.saveAssociate(Utils.convertSaveAssociateRequestToJson(invalidRequest))
-                .then()
-                    .log().all()
-                    .statusCode(HttpStatus.SC_BAD_REQUEST)
                     .body(containsString("Email não pode ser vazio."))
                     .body(containsString("Email inválido."))
+                    .body(containsString("Profissão não pode ser vazio."))
         ;
     }
 
     @Test
     @Tag("all")
-    @Description("Deve não salvar associado sem preencher profissão")
-    public void mustNotSaveAssociateWithEmptyProfession() {
-        SaveAssociateRequest invalidRequest = associateBuilder.buildSaveAssociateWithEmptyProfession();
-
-        associateService.saveAssociate(Utils.convertSaveAssociateRequestToJson(invalidRequest))
-                .then()
-                .log().all()
-                .statusCode(HttpStatus.SC_BAD_REQUEST)
-                .body(containsString("Profissão não pode ser vazio."))
-        ;
-    }
-
-    @Test
-    @Tag("all")
-    @Description("Deve não salvar associado com nome nulo")
-    public void mustNotSaveAssociateWithNullName() {
-        SaveAssociateRequest invalidRequest = associateBuilder.buildSaveAssociateWithNullName();
+    @Description("Deve não salvar associado com campos nulos")
+    public void mustNotSaveAssociateWithNullFields() {
+        SaveAssociateRequest invalidRequest = associateBuilder.buildSaveAssociateWithNullFields();
 
         associateService.saveAssociate(Utils.convertSaveAssociateRequestToJson(invalidRequest))
                 .then()
                     .log().all()
                     .statusCode(HttpStatus.SC_BAD_REQUEST)
                     .body(containsString("Nome não pode ser nulo."))
-        ;
-    }
-
-    @Test
-    @Tag("all")
-    @Description("Deve não salvar associado com cpf nulo")
-    public void mustNotSaveAssociateWithNullCpf() {
-        SaveAssociateRequest invalidRequest = associateBuilder.buildSaveAssociateWithNullCpf();
-
-        associateService.saveAssociate(Utils.convertSaveAssociateRequestToJson(invalidRequest))
-                .then()
-                    .log().all()
-                    .statusCode(HttpStatus.SC_BAD_REQUEST)
                     .body(containsString("CPF não pode ser nulo."))
-        ;
-    }
-
-    @Test
-    @Tag("all")
-    @Description("Deve não salvar associado com data de nascimento nulo")
-    public void mustNotSaveAssociateWithNullBirthDate() {
-        SaveAssociateRequest invalidRequest = associateBuilder.buildSaveAssociateWithNullBirthDate();
-
-        associateService.saveAssociate(Utils.convertSaveAssociateRequestToJson(invalidRequest))
-                .then()
-                    .log().all()
-                    .statusCode(HttpStatus.SC_BAD_REQUEST)
                     .body(containsString("Data de nascimento não pode ser nula."))
-        ;
-    }
-
-    @Test
-    @Tag("all")
-    @Description("Deve não salvar associado com telefone nulo")
-    public void mustNotSaveAssociateWithNullPhone() {
-        SaveAssociateRequest invalidRequest = associateBuilder.buildSaveAssociateWithNullPhone();
-
-        associateService.saveAssociate(Utils.convertSaveAssociateRequestToJson(invalidRequest))
-                .then()
-                    .log().all()
-                    .statusCode(HttpStatus.SC_BAD_REQUEST)
                     .body(containsString("Telefone não pode ser nulo."))
-        ;
-    }
-
-    @Test
-    @Tag("all")
-    @Description("Deve não salvar associado com email nulo")
-    public void mustNotSaveAssociateWithNullEmail() {
-        SaveAssociateRequest invalidRequest = associateBuilder.buildSaveAssociateWithNullEmail();
-
-        associateService.saveAssociate(Utils.convertSaveAssociateRequestToJson(invalidRequest))
-                .then()
-                    .log().all()
-                    .statusCode(HttpStatus.SC_BAD_REQUEST)
                     .body(containsString("Email não pode ser nulo."))
-        ;
-    }
-
-    @Test
-    @Tag("all")
-    @Description("Deve não salvar associado com profissão null")
-    public void mustNotSaveAssociateWithNullProfession() {
-        SaveAssociateRequest invalidRequest = associateBuilder.buildSaveAssociateWithNullProfession();
-
-        associateService.saveAssociate(Utils.convertSaveAssociateRequestToJson(invalidRequest))
-                .then()
-                    .log().all()
-                    .statusCode(HttpStatus.SC_BAD_REQUEST)
                     .body(containsString("Profissão não pode ser nulo."))
-        ;
-    }
-
-    @Test
-    @Tag("all")
-    @Description("Deve não salvar associado com salário nulo")
-    public void mustNotSaveAssociateWithNullSalary() {
-        SaveAssociateRequest invalidRequest = associateBuilder.buildSaveAssociateWithNullSalary();
-
-        associateService.saveAssociate(Utils.convertSaveAssociateRequestToJson(invalidRequest))
-                .then()
-                    .log().all()
-                    .statusCode(HttpStatus.SC_BAD_REQUEST)
                     .body(containsString("Salário não pode ser nulo."))
         ;
     }
