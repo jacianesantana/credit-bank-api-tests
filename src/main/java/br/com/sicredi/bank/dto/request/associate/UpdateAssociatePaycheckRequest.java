@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties
-public class UpdateAssociateRequest {
+public class UpdateAssociatePaycheckRequest {
 
     private String profession;
     private BigDecimal salary;

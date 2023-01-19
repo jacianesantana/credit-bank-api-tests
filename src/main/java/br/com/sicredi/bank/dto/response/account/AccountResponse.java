@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties
 public class AccountResponse {
 
+    private Long id;
     private AccountType type;
     private Integer agency;
     private Integer number;

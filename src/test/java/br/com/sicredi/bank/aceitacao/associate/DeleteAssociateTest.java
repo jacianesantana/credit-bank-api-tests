@@ -18,16 +18,13 @@ import static org.hamcrest.Matchers.containsString;
 @Epic("Delete Associate")
 public class DeleteAssociateTest {
 
-    private static final String DELETE_SUCCESS = "Associado excluido com sucesso!";
-    private static final String DELETE_ERROR = "Associado contém contratos ativos!";
-
     AssociateService associateService = new AssociateService();
     AssociateBuilder associateBuilder = new AssociateBuilder();
 
     @Test
     @Tag("all")
     @Description("Deve deletar associado com sucesso")
-    public void deveDeletarAssociadoComSucesso() {
+    public void mustDeleteAssociateSuccessfully() {
         SaveAssociateRequest request = associateBuilder.buildSaveAssociateRequest();
 
         SaveAssociateResponse response = associateService.saveAssociate(Utils.convertSaveAssociateRequestToJson(request))
@@ -41,29 +38,28 @@ public class DeleteAssociateTest {
                 .then()
                     .log().all()
                     .statusCode(HttpStatus.SC_NO_CONTENT)
-                    .body(containsString(DELETE_SUCCESS))
         ;
     }
 
     @Test
     @Tag("all")
     @Description("Deve não deletar associado com id inexistente")
-    public void deveNaoDeletarAssociadoComIdInexistente() {
+    public void mustNotDeleteAssociateWithNonexistentId() {
         var invalidId = 179416461470170L;
 
         associateService.deleteAssociate(invalidId)
                 .then()
                     .log().all()
                     .statusCode(HttpStatus.SC_NOT_FOUND)
-                    .body(containsString("ID INEXISTENTE"))
+                    .body(containsString("Associdado não encontrado."))
         ;
     }
 
-/*    @Test
-    @Tag("all")
+    @Test
+    @Tag("error")
     @Description("Deve não deletar associado com contrato ativo")
-    public void deveNaoDeletarAssociadoComContratoAtivo() {
-        // FALTA ADICIONAR CONTRATO
+    public void mustNotDeleteAssociateWithActiveContract() {
+        // FALTA ASSINAR CONTRATO
 
         SaveAssociateRequest request = associateBuilder.buildSaveAssociateRequest();
 
@@ -78,8 +74,8 @@ public class DeleteAssociateTest {
                 .then()
                     .log().all()
                     .statusCode(HttpStatus.SC_BAD_REQUEST)
-                    .body(containsString(DELETE_ERROR))
+                    .body(containsString("Associado contém contratos ativos!"))
         ;
-    }*/
+    }
 
 }

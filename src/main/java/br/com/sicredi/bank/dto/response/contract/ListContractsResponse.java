@@ -1,4 +1,4 @@
-package br.com.sicredi.bank.dto.response.associate;
+package br.com.sicredi.bank.dto.response.contract;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
@@ -11,9 +11,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties
-public class DeleteAssociateResponse {
+public class ListContractsResponse {
 
-    private Boolean deleted;
-    private String message;
+    private Long id;
+    private Boolean paidOff;
 
 }

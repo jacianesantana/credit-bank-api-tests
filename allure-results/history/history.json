@@ -1,0 +1,138 @@
+{
+  "a0c78f000675098328ad636d3e3b14d2" : {
+    "statistic" : {
+      "failed" : 1,
+      "broken" : 0,
+      "skipped" : 0,
+      "passed" : 0,
+      "unknown" : 0,
+      "total" : 1
+    },
+    "items" : [ {
+      "uid" : "cc804cce583c29fe",
+      "status" : "failed",
+      "statusDetails" : "1 expectation failed.\nResponse body doesn't match expectation.\nExpected: a string containing \"Nome não pode ficar em branco.\"\n  Actual: {\"timestamp\":\"2023-01-17T18:11:22.369+00:00\",\"status\":400,\"error\":\"Bad Request\",\"message\":\"Validation failed for object='saveAssociateRequest'. Error count: 1\",\"path\":\"/api/v1/associate/save\"}\n",
+      "time" : {
+        "start" : 1673979076439,
+        "stop" : 1673979083117,
+        "duration" : 6678
+      }
+    } ]
+  },
+  "7b8d0338695afe5b1dc6d00e7fa875dd" : {
+    "statistic" : {
+      "failed" : 1,
+      "broken" : 0,
+      "skipped" : 0,
+      "passed" : 0,
+      "unknown" : 0,
+      "total" : 1
+    },
+    "items" : [ {
+      "uid" : "ff9b2a0d1e0f0c31",
+      "status" : "failed",
+      "statusDetails" : "1 expectation failed.\nResponse body doesn't match expectation.\nExpected: a string containing \"CPF não pode ficar em branco.\"\n  Actual: {\"timestamp\":\"2023-01-17T18:03:02.452+00:00\",\"status\":400,\"error\":\"Bad Request\",\"message\":\"Validation failed for object='saveAssociateRequest'. Error count: 1\",\"path\":\"/api/v1/associate/save\"}\n",
+      "time" : {
+        "start" : 1673978582416,
+        "stop" : 1673978582458,
+        "duration" : 42
+      }
+    } ]
+  },
+  "cd6549da5a997b070056c3926b85dfe8" : {
+    "statistic" : {
+      "failed" : 0,
+      "broken" : 0,
+      "skipped" : 0,
+      "passed" : 1,
+      "unknown" : 0,
+      "total" : 1
+    },
+    "items" : [ {
+      "uid" : "8aed042c57fbf194",
+      "status" : "passed",
+      "time" : {
+        "start" : 1673978957975,
+        "stop" : 1673978964533,
+        "duration" : 6558
+      }
+    } ]
+  },
+  "abdc7dce01e320761bde2be09ed11387" : {
+    "statistic" : {
+      "failed" : 1,
+      "broken" : 0,
+      "skipped" : 0,
+      "passed" : 0,
+      "unknown" : 0,
+      "total" : 1
+    },
+    "items" : [ {
+      "uid" : "a5ebb4fc82f0d56a",
+      "status" : "failed",
+      "statusDetails" : "1 expectation failed.\nExpected status code <201> but was <400>.\n",
+      "time" : {
+        "start" : 1673958991701,
+        "stop" : 1673958991765,
+        "duration" : 64
+      }
+    } ]
+  },
+  "45be0a40d9a52b136127c8f7047d4767" : {
+    "statistic" : {
+      "failed" : 0,
+      "broken" : 0,
+      "skipped" : 0,
+      "passed" : 1,
+      "unknown" : 0,
+      "total" : 1
+    },
+    "items" : [ {
+      "uid" : "38f9a0105ca7495b",
+      "status" : "passed",
+      "time" : {
+        "start" : 1673978994770,
+        "stop" : 1673979000500,
+        "duration" : 5730
+      }
+    } ]
+  },
+  "32cb50fdb198f1e964757f22eff24420" : {
+    "statistic" : {
+      "failed" : 0,
+      "broken" : 0,
+      "skipped" : 0,
+      "passed" : 1,
+      "unknown" : 0,
+      "total" : 1
+    },
+    "items" : [ {
+      "uid" : "b859bfbe4c83b2be",
+      "status" : "passed",
+      "time" : {
+        "start" : 1673978907735,
+        "stop" : 1673978914401,
+        "duration" : 6666
+      }
+    } ]
+  },
+  "4d3ab86e0e619c1102df25a02aa395b9" : {
+    "statistic" : {
+      "failed" : 0,
+      "broken" : 0,
+      "skipped" : 0,
+      "passed" : 1,
+      "unknown" : 0,
+      "total" : 1
+    },
+    "items" : [ {
+      "uid" : "2387cda60dda798f",
+      "status" : "passed",
+      "time" : {
+        "start" : 1673979038322,
+        "stop" : 1673979043990,
+        "duration" : 5668
+      }
+    } ]
+  }
+}

@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -13,7 +16,9 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties
 public class UpdateAssociateResponse {
 
-    private Boolean updated;
-    private String message;
+    private Long id;
+    private String profession;
+    private BigDecimal salary;
+    private String lastPaycheck;
 
 }

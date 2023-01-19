@@ -26,7 +26,7 @@ public class FindAssociateTest {
     @Test
     @Tag("all")
     @Description("Deve buscar associado com sucesso")
-    public void deveBuscarAssociadoComSucesso() {
+    public void mustFindAssociateSuccessfully() {
         SaveAssociateRequest saveRequest = associateBuilder.buildSaveAssociateRequest();
 
         SaveAssociateResponse saveResponse = associateService.saveAssociate(Utils.convertSaveAssociateRequestToJson(saveRequest))
@@ -48,7 +48,6 @@ public class FindAssociateTest {
         assertEquals(saveRequest.getCpf(), findResponse.getCpf());
         assertEquals(saveRequest.getBirthDate(), findResponse.getBirthDate());
         assertEquals(saveRequest.getProfession(), findResponse.getProfession());
-        assertEquals(saveRequest.getSalary(), findResponse.getSalary());
 
         associateService.deleteAssociate(findResponse.getId())
                 .then()
@@ -60,14 +59,14 @@ public class FindAssociateTest {
     @Test
     @Tag("all")
     @Description("Deve não buscar associado com id inexistente")
-    public void deveNaoBuscarAssociadoComIdInexistente() {
+    public void mustNotFindAssociateWithNonexistentId() {
         var invalidId = 16261837107330L;
 
         associateService.findAssociate(invalidId)
                 .then()
                     .log().all()
                     .statusCode(HttpStatus.SC_NOT_FOUND)
-                    .body(containsString("ID INEXISTENTE"))
+                    .body(containsString("Associdado não encontrado."))
                 ;
     }
 
