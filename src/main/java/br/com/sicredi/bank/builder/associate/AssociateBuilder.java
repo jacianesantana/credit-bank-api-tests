@@ -1,6 +1,7 @@
 package br.com.sicredi.bank.builder.associate;
 
 import br.com.sicredi.bank.dto.request.associate.SaveAssociateRequest;
+import br.com.sicredi.bank.dto.request.associate.UpdateAssociateContactRequest;
 import br.com.sicredi.bank.dto.request.associate.UpdateAssociatePaycheckRequest;
 import net.datafaker.Faker;
 import org.apache.commons.lang3.StringUtils;
@@ -75,7 +76,30 @@ public class AssociateBuilder {
         return invalidAssociate;
     }
 
-    public UpdateAssociatePaycheckRequest buildUpdateAssociateRequest() {
+    public UpdateAssociateContactRequest buildUpdateAssociateContactRequest() {
+        return UpdateAssociateContactRequest.builder()
+                .phone(faker.phoneNumber().cellPhone())
+                .email(faker.internet().emailAddress())
+                .build();
+    }
+
+    public UpdateAssociateContactRequest buildUpdateAssociateContactWithEmptyFields() {
+        UpdateAssociateContactRequest invalidAssociate = buildUpdateAssociateContactRequest();
+        invalidAssociate.setPhone(StringUtils.EMPTY);
+        invalidAssociate.setEmail(StringUtils.EMPTY);
+
+        return invalidAssociate;
+    }
+
+    public UpdateAssociateContactRequest buildUpdateAssociateContactWithNullFields() {
+        UpdateAssociateContactRequest invalidAssociate = buildUpdateAssociateContactRequest();
+        invalidAssociate.setPhone(null);
+        invalidAssociate.setEmail(null);
+
+        return invalidAssociate;
+    }
+
+    public UpdateAssociatePaycheckRequest buildUpdateAssociatePaycheckRequest() {
         return UpdateAssociatePaycheckRequest.builder()
                 .profession("Profissão atualizada")
                 .salary(BigDecimal.valueOf(5500).setScale(2))
@@ -83,14 +107,14 @@ public class AssociateBuilder {
     }
 
     public UpdateAssociatePaycheckRequest buildUpdateAssociateWithInvalidSalary() {
-        UpdateAssociatePaycheckRequest invalidAssociate = buildUpdateAssociateRequest();
+        UpdateAssociatePaycheckRequest invalidAssociate = buildUpdateAssociatePaycheckRequest();
         invalidAssociate.setSalary(BigDecimal.valueOf(-1));
 
         return invalidAssociate;
     }
 
     public UpdateAssociatePaycheckRequest buildUpdateAssociateWithEmptyProfession() {
-        UpdateAssociatePaycheckRequest invalidAssociate = buildUpdateAssociateRequest();
+        UpdateAssociatePaycheckRequest invalidAssociate = buildUpdateAssociatePaycheckRequest();
         invalidAssociate.setProfession(StringUtils.EMPTY);
 
         return invalidAssociate;

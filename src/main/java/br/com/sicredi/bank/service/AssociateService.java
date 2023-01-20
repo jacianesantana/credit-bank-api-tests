@@ -27,12 +27,23 @@ public class AssociateService {
                 ;
     }
 
-    public Response udateAssociate(Long id, String updateAssociateRequest) {
+    public Response updateAssociateContact(Long id, String updateAssociateContactRequest) {
         return
                 given()
                         .pathParam("id", id)
                         .contentType(ContentType.JSON)
-                        .body(updateAssociateRequest)
+                        .body(updateAssociateContactRequest)
+                .when()
+                        .patch(Utils.getBaseUrl() + "/associate/updateContact/{id}")
+                ;
+    }
+
+    public Response updateAssociatePaycheck(Long id, String updateAssociatePaycheckRequest) {
+        return
+                given()
+                        .pathParam("id", id)
+                        .contentType(ContentType.JSON)
+                        .body(updateAssociatePaycheckRequest)
                 .when()
                         .patch(Utils.getBaseUrl() + "/associate/updatePaycheck/{id}")
                 ;
@@ -44,6 +55,29 @@ public class AssociateService {
                         .pathParam("id", id)
                 .when()
                         .delete(Utils.getBaseUrl() + "/associate/delete/{id}")
+                ;
+    }
+
+    public Response saveAssociateAddress(Long idAssociate, String addressRequest) {
+        return
+                given()
+                        .queryParam("idAssociate", idAssociate)
+                        .contentType(ContentType.JSON)
+                        .body(addressRequest)
+                .when()
+                        .post(Utils.getBaseUrl() + "/associate/address/save")
+                ;
+    }
+
+    public Response updateAssociateAddress(Long id, Long idAssociate, String addressRequest) {
+        return
+                given()
+                        .pathParam("id", id)
+                        .queryParam("idAssociate", idAssociate)
+                        .contentType(ContentType.JSON)
+                        .body(addressRequest)
+                .when()
+                        .put(Utils.getBaseUrl() + "/associate/address/update/{id}")
                 ;
     }
 

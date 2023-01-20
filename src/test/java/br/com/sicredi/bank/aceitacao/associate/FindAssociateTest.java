@@ -24,7 +24,7 @@ public class FindAssociateTest {
     AssociateBuilder associateBuilder = new AssociateBuilder();
 
     @Test
-    @Tag("some")
+    @Tag("all")
     @Description("Deve buscar associado com sucesso")
     public void mustFindAssociateSuccessfully() {
         SaveAssociateRequest saveRequest = associateBuilder.buildSaveAssociateRequest();
@@ -63,7 +63,7 @@ public class FindAssociateTest {
     }
 
     @Test
-    @Tag("some")
+    @Tag("all")
     @Description("Deve não buscar associado com id inexistente")
     public void mustNotFindAssociateWithNonexistentId() {
         var invalidId = 16261837107330L;

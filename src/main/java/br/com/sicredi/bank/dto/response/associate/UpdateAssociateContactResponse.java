@@ -6,18 +6,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties
-public class UpdateAssociateResponse {
+public class UpdateAssociateContactResponse {
 
     private Long id;
-    private String profession;
-    private BigDecimal salary;
-    private String lastPaycheck;
+    private String phone;
+    private String email;
 
 }
