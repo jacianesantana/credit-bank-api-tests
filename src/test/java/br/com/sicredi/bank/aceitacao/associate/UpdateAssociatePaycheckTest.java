@@ -4,7 +4,7 @@ import br.com.sicredi.bank.builder.associate.AssociateBuilder;
 import br.com.sicredi.bank.dto.request.associate.SaveAssociateRequest;
 import br.com.sicredi.bank.dto.request.associate.UpdateAssociatePaycheckRequest;
 import br.com.sicredi.bank.dto.response.associate.SaveAssociateResponse;
-import br.com.sicredi.bank.dto.response.associate.UpdateAssociateResponse;
+import br.com.sicredi.bank.dto.response.associate.UpdateAssociatePaycheckResponse;
 import br.com.sicredi.bank.service.AssociateService;
 import br.com.sicredi.bank.utils.Utils;
 import io.qameta.allure.Description;
@@ -27,9 +27,9 @@ public class UpdateAssociatePaycheckTest {
     AssociateBuilder associateBuilder = new AssociateBuilder();
 
     @Test
-    @Tag("all")
+    @Tag("error")
     @Description("Deve atualizar contra-cheque do associado com sucesso")
-    public void mustUpdateAssociateSuccessfully() {
+    public void mustUpdateAssociatePaycheckSuccessfully() {
         SaveAssociateRequest saveRequest = associateBuilder.buildSaveAssociateRequest();
 
         SaveAssociateResponse saveResponse = associateService
@@ -42,14 +42,14 @@ public class UpdateAssociatePaycheckTest {
 
         saveResponse.setLastPaycheck(LocalDate.now().minusMonths(4).toString());
 
-        UpdateAssociatePaycheckRequest updateRequest = associateBuilder.buildUpdateAssociateRequest();
+        UpdateAssociatePaycheckRequest updateRequest = associateBuilder.buildUpdateAssociatePaycheckRequest();
 
-        UpdateAssociateResponse updateResponse = associateService
-                .udateAssociate(saveResponse.getId(), Utils.convertUpdateAssociateRequestToJson(updateRequest))
+        UpdateAssociatePaycheckResponse updateResponse = associateService
+                .updateAssociatePaycheck(saveResponse.getId(), Utils.convertUpdateAssociatePaycheckRequestToJson(updateRequest))
                 .then()
                     .log().all()
                     .statusCode(HttpStatus.SC_OK)
-                    .extract().as(UpdateAssociateResponse.class)
+                    .extract().as(UpdateAssociatePaycheckResponse.class)
                 ;
 
         assertEquals(saveResponse.getId(), updateResponse.getId());
@@ -66,12 +66,13 @@ public class UpdateAssociatePaycheckTest {
 
     @Test
     @Tag("all")
-    @Description("Deve não atualizar associado com id inexistente")
-    public void mustNotUpdateAssociateWithNonexistentId() {
-        UpdateAssociatePaycheckRequest updateRequest = associateBuilder.buildUpdateAssociateRequest();
+    @Description("Deve não atualizar contra-cheque do associado com id inexistente")
+    public void mustNotUpdateAssociatePaycheckWithNonexistentId() {
         var invalidId = 199391382734712L;
 
-        associateService.udateAssociate(invalidId, Utils.convertUpdateAssociateRequestToJson(updateRequest))
+        UpdateAssociatePaycheckRequest updateRequest = associateBuilder.buildUpdateAssociatePaycheckRequest();
+
+        associateService.updateAssociatePaycheck(invalidId, Utils.convertUpdateAssociatePaycheckRequestToJson(updateRequest))
                 .then()
                     .log().all()
                     .statusCode(HttpStatus.SC_NOT_FOUND)
@@ -79,10 +80,10 @@ public class UpdateAssociatePaycheckTest {
                 ;
     }
 
-/*    @Test
-    @Tag("error")
-    @Description("Deve não atualizar associado com salário negativo")
-    public void mustNotUpdateAssociateWithNegativeSalary() {
+    @Test
+    @Tag("all")
+    @Description("Deve não atualizar contra-cheque do associado com salário negativo")
+    public void mustNotUpdateAssociatePaycheckWithNegativeSalary() {
         SaveAssociateRequest saveRequest = associateBuilder.buildSaveAssociateRequest();
 
         SaveAssociateResponse saveResponse = associateService
@@ -93,12 +94,15 @@ public class UpdateAssociatePaycheckTest {
                     .extract().as(SaveAssociateResponse.class)
                 ;
 
-        UpdateAssociateRequest updateInvalidRequest = associateBuilder.buildUpdateAssociateWithInvalidSalary();
+        saveResponse.setLastPaycheck(LocalDate.now().minusMonths(4).toString());
 
-        associateService.udateAssociate(saveResponse.getId(), Utils.convertUpdateAssociateRequestToJson(updateInvalidRequest))
+        UpdateAssociatePaycheckRequest updateInvalidRequest = associateBuilder.buildUpdateAssociateWithInvalidSalary();
+
+        associateService.updateAssociatePaycheck(saveResponse.getId(), Utils.convertUpdateAssociatePaycheckRequestToJson(updateInvalidRequest))
                 .then()
                     .log().all()
                     .statusCode(HttpStatus.SC_BAD_REQUEST)
+                    .body(containsString("Salário inválido."))
         ;
 
         associateService.deleteAssociate(saveResponse.getId())
@@ -106,12 +110,12 @@ public class UpdateAssociatePaycheckTest {
                     .log().all()
                     .statusCode(HttpStatus.SC_NO_CONTENT)
         ;
-    }*/
+    }
 
     @Test
-    @Tag("error")
-    @Description("Deve não atualizar associado sem preencher profissão")
-    public void mustNotUpdateAssociateWithEmptyProfession() {
+    @Tag("all")
+    @Description("Deve não atualizar contra-cheque do associado sem preencher profissão")
+    public void mustNotUpdateAssociatePaycheckWithEmptyProfession() {
         SaveAssociateRequest saveRequest = associateBuilder.buildSaveAssociateRequest();
 
         SaveAssociateResponse saveResponse = associateService
@@ -124,11 +128,11 @@ public class UpdateAssociatePaycheckTest {
 
         UpdateAssociatePaycheckRequest updateInvalidRequest = associateBuilder.buildUpdateAssociateWithEmptyProfession();
 
-        associateService.udateAssociate(saveResponse.getId(), Utils.convertUpdateAssociateRequestToJson(updateInvalidRequest))
+        associateService.updateAssociatePaycheck(saveResponse.getId(), Utils.convertUpdateAssociatePaycheckRequestToJson(updateInvalidRequest))
                 .then()
                     .log().all()
                     .statusCode(HttpStatus.SC_BAD_REQUEST)
-                    .body(containsString("Profissão não pode ficar em branco."))
+                    .body(containsString("Profissão não pode ser vazio."))
         ;
 
         associateService.deleteAssociate(saveResponse.getId())
@@ -140,8 +144,8 @@ public class UpdateAssociatePaycheckTest {
 
     @Test
     @Tag("all")
-    @Description("Deve não atualizar associado com menos de 3 meses da última atualização")
-    public void mustNotUpdateAssociateWithInvalidLastPaycheck() {
+    @Description("Deve não atualizar contra-cheque do associado com menos de 3 meses da última atualização")
+    public void mustNotUpdateAssociatePaycheckWithInvalidLastPaycheck() {
         SaveAssociateRequest saveRequest = associateBuilder.buildSaveAssociateRequest();
 
         SaveAssociateResponse saveResponse = associateService
@@ -152,9 +156,9 @@ public class UpdateAssociatePaycheckTest {
                     .extract().as(SaveAssociateResponse.class)
                 ;
 
-        UpdateAssociatePaycheckRequest updateInvalidRequest = associateBuilder.buildUpdateAssociateRequest();
+        UpdateAssociatePaycheckRequest updateInvalidRequest = associateBuilder.buildUpdateAssociatePaycheckRequest();
 
-        associateService.udateAssociate(saveResponse.getId(), Utils.convertUpdateAssociateRequestToJson(updateInvalidRequest))
+        associateService.updateAssociatePaycheck(saveResponse.getId(), Utils.convertUpdateAssociatePaycheckRequestToJson(updateInvalidRequest))
                 .then()
                     .log().all()
                     .statusCode(HttpStatus.SC_BAD_REQUEST)

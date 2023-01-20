@@ -1,6 +1,8 @@
 package br.com.sicredi.bank.utils;
 
+import br.com.sicredi.bank.dto.request.address.AddressRequest;
 import br.com.sicredi.bank.dto.request.associate.SaveAssociateRequest;
+import br.com.sicredi.bank.dto.request.associate.UpdateAssociateContactRequest;
 import br.com.sicredi.bank.dto.request.associate.UpdateAssociatePaycheckRequest;
 import com.google.gson.Gson;
 
@@ -16,8 +18,16 @@ public class Utils {
         return new Gson().toJson(saveAssociateRequest);
     }
 
-    public static String convertUpdateAssociateRequestToJson(UpdateAssociatePaycheckRequest updateAssociateRequest) {
-        return new Gson().toJson(updateAssociateRequest);
+    public static String convertUpdateAssociatePaycheckRequestToJson(UpdateAssociatePaycheckRequest updateAssociatePaycheckRequest) {
+        return new Gson().toJson(updateAssociatePaycheckRequest);
+    }
+
+    public static String convertUpdateAssociateContactRequestToJson(UpdateAssociateContactRequest updateAssociateContactRequest) {
+        return new Gson().toJson(updateAssociateContactRequest);
+    }
+
+    public static String convertAddressRequestToJson(AddressRequest addressRequest) {
+        return new Gson().toJson(addressRequest);
     }
 
 }
