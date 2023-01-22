@@ -1,7 +1,5 @@
-package br.com.sicredi.bank.dto.entity.associate;
+package br.com.sicredi.bank.dto.entity;
 
-import br.com.sicredi.bank.dto.entity.account.AccountEntity;
-import br.com.sicredi.bank.dto.entity.contract.ContractEntity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,6 +1,5 @@
-package br.com.sicredi.bank.dto.entity.transaction;
+package br.com.sicredi.bank.dto.response.transaction;
 
-import br.com.sicredi.bank.dto.entity.account.AccountEntity;
 import br.com.sicredi.bank.dto.enums.TransactionType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
@@ -16,13 +15,10 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties
-public class TransactionEntity {
+public class StatementTransactionResponse {
 
-    private Long id;
     private TransactionType type;
     private BigDecimal value;
-    private AccountEntity creditAccount;
-    private AccountEntity debitAccount;
     private LocalDateTime createdAt;
 
 }
