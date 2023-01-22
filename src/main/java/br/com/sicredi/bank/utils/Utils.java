@@ -9,7 +9,7 @@ import com.google.gson.Gson;
 public class Utils {
 
     public static String getBaseUrl() {
-        String baseUrl = "http://localhost:8080/api/v1";
+        String baseUrl = "http://localhost:8080/bank-api/v1";
 
         return baseUrl;
     }

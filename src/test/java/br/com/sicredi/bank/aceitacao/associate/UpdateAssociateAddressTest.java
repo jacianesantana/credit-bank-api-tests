@@ -15,9 +15,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+import static br.com.sicredi.bank.dto.Constantes.ADDRESS_ERROR;
+import static br.com.sicredi.bank.dto.Constantes.ASSOCIATE_ERROR;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @DisplayName("Associate")
 @Epic("Update Associate Address")
@@ -89,7 +90,7 @@ public class UpdateAssociateAddressTest {
                 .then()
                     .log().all()
                     .statusCode(HttpStatus.SC_NOT_FOUND)
-                    .body(containsString("Associdado não encontrado."))
+                    .body(containsString(ASSOCIATE_ERROR))
                 ;
     }
 
@@ -116,10 +117,67 @@ public class UpdateAssociateAddressTest {
                 .then()
                     .log().all()
                     .statusCode(HttpStatus.SC_NOT_FOUND)
-                    .body(containsString("Endereço não encontrado."))
+                    .body(containsString(ADDRESS_ERROR))
                 ;
 
         associateService.deleteAssociate(associateResponse.getId())
+                .then()
+                    .log().all()
+                    .statusCode(HttpStatus.SC_NO_CONTENT)
+        ;
+    }
+
+    @Test
+    @Tag("all")
+    @Description("Deve não atualizar endereço que não está vinculado ao associado")
+    public void mustNotUpdateAddressThatIsNotLinkedToTheAssociate() {
+        SaveAssociateRequest associateOneRequest = associateBuilder.buildSaveAssociateRequest();
+
+        SaveAssociateResponse associateOneResponse = associateService
+                .saveAssociate(Utils.convertSaveAssociateRequestToJson(associateOneRequest))
+                .then()
+                    .log().all()
+                    .statusCode(HttpStatus.SC_CREATED)
+                    .extract().as(SaveAssociateResponse.class)
+                ;
+
+        SaveAssociateRequest associateTwoRequest = associateBuilder.buildSaveAssociateRequest();
+
+        SaveAssociateResponse associateTwoResponse = associateService
+                .saveAssociate(Utils.convertSaveAssociateRequestToJson(associateTwoRequest))
+                .then()
+                    .log().all()
+                    .statusCode(HttpStatus.SC_CREATED)
+                    .extract().as(SaveAssociateResponse.class)
+                ;
+
+        AddressRequest saveAddressRequest = addressBuilder.buildAddressRequest();
+
+        AddressResponse saveAddressOneResponse = associateService
+                .saveAssociateAddress(associateOneResponse.getId(), Utils.convertAddressRequestToJson(saveAddressRequest))
+                .then()
+                    .log().all()
+                    .statusCode(HttpStatus.SC_CREATED)
+                    .extract().as(AddressResponse.class)
+                ;
+
+        AddressRequest updateAddressRequest = addressBuilder.buildUpdateAddressRequest();
+
+        associateService
+                .updateAssociateAddress(saveAddressOneResponse.getId(), associateTwoResponse.getId(), Utils.convertAddressRequestToJson(updateAddressRequest))
+                .then()
+                    .log().all()
+                    .statusCode(HttpStatus.SC_NOT_FOUND)
+                    .body(containsString(ADDRESS_ERROR))
+        ;
+
+        associateService.deleteAssociate(associateOneResponse.getId())
+                .then()
+                    .log().all()
+                    .statusCode(HttpStatus.SC_NO_CONTENT)
+        ;
+
+        associateService.deleteAssociate(associateTwoResponse.getId())
                 .then()
                     .log().all()
                     .statusCode(HttpStatus.SC_NO_CONTENT)

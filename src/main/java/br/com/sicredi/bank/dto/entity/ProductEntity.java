@@ -1,6 +1,6 @@
-package br.com.sicredi.bank.dto.entity.product;
+package br.com.sicredi.bank.dto.entity;
 
-import br.com.sicredi.bank.dto.entity.contract.ContractEntity;
+import br.com.sicredi.bank.dto.entity.ContractEntity;
 import br.com.sicredi.bank.dto.enums.ProductType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
