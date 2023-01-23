@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
+import static br.com.sicredi.bank.dto.Constantes.*;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -72,7 +73,7 @@ public class SaveAssociateTest {
                 .then()
                     .log().all()
                     .statusCode(HttpStatus.SC_BAD_REQUEST)
-                    .body(containsString("Não foi possível salvar. Associado já existe!"))
+                    .body(containsString(ASSOCIATE_BUSINESS_CPF_ERROR))
                 ;
 
         associateService.deleteAssociate(response.getId())
@@ -92,7 +93,7 @@ public class SaveAssociateTest {
                 .then()
                     .log().all()
                     .statusCode(HttpStatus.SC_BAD_REQUEST)
-                    .body(containsString("Idade não atende o mínimo necessário!"))
+                    .body(containsString(ASSOCIATE_BUSINESS_AGE_ERROR))
         ;
     }
 
@@ -104,9 +105,9 @@ public class SaveAssociateTest {
 
         associateService.saveAssociate(Utils.convertSaveAssociateRequestToJson(invalidRequest))
                 .then()
-                .log().all()
-                .statusCode(HttpStatus.SC_BAD_REQUEST)
-                .body(containsString("Salário inválido."))
+                    .log().all()
+                    .statusCode(HttpStatus.SC_BAD_REQUEST)
+                    .body(containsString(SALARY_INVALID))
         ;
     }
 
@@ -118,9 +119,9 @@ public class SaveAssociateTest {
 
         associateService.saveAssociate(Utils.convertSaveAssociateRequestToJson(invalidRequest))
                 .then()
-                .log().all()
-                .statusCode(HttpStatus.SC_BAD_REQUEST)
-                .body(containsString("CPF inválido."))
+                    .log().all()
+                    .statusCode(HttpStatus.SC_BAD_REQUEST)
+                    .body(containsString(CPF_INVALID))
         ;
     }
 
@@ -134,7 +135,7 @@ public class SaveAssociateTest {
                 .then()
                     .log().all()
                     .statusCode(HttpStatus.SC_BAD_REQUEST)
-                    .body(containsString("Email inválido."))
+                    .body(containsString(EMAIL_INVALID))
         ;
     }
 

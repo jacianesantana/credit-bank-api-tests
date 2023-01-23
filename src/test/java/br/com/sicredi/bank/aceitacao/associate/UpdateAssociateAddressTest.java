@@ -15,8 +15,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import static br.com.sicredi.bank.dto.Constantes.ADDRESS_ERROR;
-import static br.com.sicredi.bank.dto.Constantes.ASSOCIATE_ERROR;
+import static br.com.sicredi.bank.dto.Constantes.ADDRESS_FIND_ERROR;
+import static br.com.sicredi.bank.dto.Constantes.ASSOCIATE_FIND_ERROR;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -90,7 +90,7 @@ public class UpdateAssociateAddressTest {
                 .then()
                     .log().all()
                     .statusCode(HttpStatus.SC_NOT_FOUND)
-                    .body(containsString(ASSOCIATE_ERROR))
+                    .body(containsString(ASSOCIATE_FIND_ERROR))
                 ;
     }
 
@@ -117,7 +117,7 @@ public class UpdateAssociateAddressTest {
                 .then()
                     .log().all()
                     .statusCode(HttpStatus.SC_NOT_FOUND)
-                    .body(containsString(ADDRESS_ERROR))
+                    .body(containsString(ADDRESS_FIND_ERROR))
                 ;
 
         associateService.deleteAssociate(associateResponse.getId())
@@ -168,7 +168,7 @@ public class UpdateAssociateAddressTest {
                 .then()
                     .log().all()
                     .statusCode(HttpStatus.SC_NOT_FOUND)
-                    .body(containsString(ADDRESS_ERROR))
+                    .body(containsString(ADDRESS_FIND_ERROR))
         ;
 
         associateService.deleteAssociate(associateOneResponse.getId())

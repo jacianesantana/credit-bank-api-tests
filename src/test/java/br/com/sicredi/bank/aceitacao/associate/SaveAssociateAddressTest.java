@@ -15,6 +15,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+import static br.com.sicredi.bank.dto.Constantes.ASSOCIATE_FIND_ERROR;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -63,7 +64,7 @@ public class SaveAssociateAddressTest {
                 .then()
                     .log().all()
                     .statusCode(HttpStatus.SC_NO_CONTENT)
-        ;
+                ;
     }
 
     @Test
@@ -78,7 +79,7 @@ public class SaveAssociateAddressTest {
                 .then()
                     .log().all()
                     .statusCode(HttpStatus.SC_NOT_FOUND)
-                    .body(containsString("Associdado não encontrado."))
+                    .body(containsString(ASSOCIATE_FIND_ERROR))
                 ;
     }
 
@@ -114,7 +115,7 @@ public class SaveAssociateAddressTest {
                 .then()
                     .log().all()
                     .statusCode(HttpStatus.SC_NO_CONTENT)
-        ;
+                ;
     }
 
     @Test
@@ -135,21 +136,21 @@ public class SaveAssociateAddressTest {
 
         associateService.saveAssociateAddress(associateResponse.getId(), Utils.convertAddressRequestToJson(addressRequest))
                 .then()
-                .log().all()
-                .statusCode(HttpStatus.SC_BAD_REQUEST)
+                    .log().all()
+                    .statusCode(HttpStatus.SC_BAD_REQUEST)
                     .body(containsString("CEP não pode ser nulo."))
                     .body(containsString("Rua não pode ser nulo."))
                     .body(containsString("Número não pode ser nulo."))
                     .body(containsString("Cidade não pode ser nulo."))
                     .body(containsString("Estado não pode ser nulo."))
                     .body(containsString("País não pode ser nulo."))
-        ;
+                ;
 
         associateService.deleteAssociate(associateResponse.getId())
                 .then()
                     .log().all()
                     .statusCode(HttpStatus.SC_NO_CONTENT)
-        ;
+                ;
     }
 
 }

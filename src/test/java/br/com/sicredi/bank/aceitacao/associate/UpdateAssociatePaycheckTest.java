@@ -16,6 +16,8 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
+import static br.com.sicredi.bank.dto.Constantes.ASSOCIATE_BUSINESS_PAYCHECK_ERROR;
+import static br.com.sicredi.bank.dto.Constantes.ASSOCIATE_FIND_ERROR;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -76,7 +78,7 @@ public class UpdateAssociatePaycheckTest {
                 .then()
                     .log().all()
                     .statusCode(HttpStatus.SC_NOT_FOUND)
-                    .body(containsString("Associdado não encontrado."))
+                    .body(containsString(ASSOCIATE_FIND_ERROR))
                 ;
     }
 
@@ -162,7 +164,7 @@ public class UpdateAssociatePaycheckTest {
                 .then()
                     .log().all()
                     .statusCode(HttpStatus.SC_BAD_REQUEST)
-                    .body(containsString("Associado com menos de 3 meses desde da última atualização!"))
+                    .body(containsString(ASSOCIATE_BUSINESS_PAYCHECK_ERROR))
         ;
 
         associateService.deleteAssociate(saveResponse.getId())

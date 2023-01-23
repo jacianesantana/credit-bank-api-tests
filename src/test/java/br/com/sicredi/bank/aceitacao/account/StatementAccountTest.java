@@ -1,11 +1,19 @@
 package br.com.sicredi.bank.aceitacao.account;
 
+import br.com.sicredi.bank.builder.account.AccountBuilder;
 import br.com.sicredi.bank.builder.associate.AssociateBuilder;
+import br.com.sicredi.bank.builder.transaction.TransactionBuilder;
+import br.com.sicredi.bank.dto.enums.TransactionType;
+import br.com.sicredi.bank.dto.request.account.AccountRequest;
 import br.com.sicredi.bank.dto.request.associate.SaveAssociateRequest;
+import br.com.sicredi.bank.dto.request.transaction.DepositTransactionRequest;
+import br.com.sicredi.bank.dto.request.transaction.TransferTransactionRequest;
+import br.com.sicredi.bank.dto.request.transaction.WithdrawTransactionRequest;
 import br.com.sicredi.bank.dto.response.account.StatementAccountResponse;
 import br.com.sicredi.bank.dto.response.associate.SaveAssociateResponse;
 import br.com.sicredi.bank.service.AccountService;
 import br.com.sicredi.bank.service.AssociateService;
+import br.com.sicredi.bank.service.TransactionService;
 import br.com.sicredi.bank.utils.Utils;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
@@ -16,7 +24,7 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
-import static br.com.sicredi.bank.dto.Constantes.ACCOUNT_ERROR;
+import static br.com.sicredi.bank.dto.Constantes.ACCOUNT_FIND_ERROR;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -24,39 +32,82 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @Epic("Statement Account")
 public class StatementAccountTest {
 
-    AccountService accountService = new AccountService();
     AssociateService associateService = new AssociateService();
     AssociateBuilder associateBuilder = new AssociateBuilder();
+    AccountService accountService = new AccountService();
+    AccountBuilder accountBuilder = new AccountBuilder();
+    TransactionService transactionService = new TransactionService();
+    TransactionBuilder transactionBuilder = new TransactionBuilder();
 
     @Test
-    @Tag("error")
+    @Tag("all")
     @Description("Deve buscar extrato de conta com sucesso")
     public void mustFindAccountStatementSuccessfully() {
-        // FALTA ADD TRANSAÇÕES
-
         SaveAssociateRequest saveRequest = associateBuilder.buildSaveAssociateRequest();
 
-        SaveAssociateResponse saveResponse = associateService.saveAssociate(Utils.convertSaveAssociateRequestToJson(saveRequest))
+        SaveAssociateResponse associateResponse = associateService.saveAssociate(Utils.convertSaveAssociateRequestToJson(saveRequest))
                 .then()
                     .log().all()
                     .statusCode(HttpStatus.SC_CREATED)
                     .extract().as(SaveAssociateResponse.class)
                 ;
 
-        StatementAccountResponse response = accountService.statement(saveResponse.getAccounts().get(0).getId())
+        AccountRequest accountRequest = accountBuilder.buildAccountRequest();
+        accountRequest.setAgency(associateResponse.getAccounts().get(0).getAgency());
+        accountRequest.setNumber(associateResponse.getAccounts().get(0).getNumber());
+        AccountRequest creditAccountRequest = accountBuilder.buildAccountRequest();
+        creditAccountRequest.setAgency(associateResponse.getAccounts().get(1).getAgency());
+        creditAccountRequest.setNumber(associateResponse.getAccounts().get(1).getNumber());
+
+        DepositTransactionRequest depositRequest = transactionBuilder.buildDepositTransactionRequest();
+        depositRequest.setCreditAccount(accountRequest);
+
+        transactionService.depositTransaction(Utils.convertDepositTransactionRequestToJson(depositRequest))
+                .then()
+                    .log().all()
+                    .statusCode(HttpStatus.SC_CREATED)
+                ;
+
+        WithdrawTransactionRequest withdrawRequest = transactionBuilder.buildWithdrawTransactionRequest();
+        withdrawRequest.setDebitAccount(accountRequest);
+
+        transactionService.withdrawTransaction(Utils.convertWithdrawTransactionRequestToJson(withdrawRequest))
+                .then()
+                    .log().all()
+                    .statusCode(HttpStatus.SC_CREATED)
+                ;
+
+
+        TransferTransactionRequest transferRequest = transactionBuilder.buildTransferTransactionRequest();
+        transferRequest.setDebitAccount(accountRequest);
+        transferRequest.setCreditAccount(creditAccountRequest);
+
+        transactionService.transferTransaction(Utils.convertTransferTransactionRequestToJson(transferRequest))
+                .then()
+                    .log().all()
+                    .statusCode(HttpStatus.SC_CREATED)
+                ;
+
+        StatementAccountResponse response = accountService.statementAccount(associateResponse.getAccounts().get(0).getId())
                 .then()
                     .log().all()
                     .statusCode(HttpStatus.SC_OK)
                     .extract().as(StatementAccountResponse.class)
                 ;
 
-        assertEquals(saveResponse.getAccounts().get(0).getType(), response.getType());
-        assertEquals(saveResponse.getAccounts().get(0).getAgency(), response.getAgency());
-        assertEquals(saveResponse.getAccounts().get(0).getNumber(), response.getNumber());
-        assertEquals(BigDecimal.valueOf(0).setScale(2), response.getBalance());
-        assertEquals(0, response.getTransactions().size());
+        var balance = BigDecimal.ZERO.add(depositRequest.getValue())
+                .subtract(withdrawRequest.getValue())
+                .subtract(transferRequest.getValue());
 
-        associateService.deleteAssociate(saveResponse.getId())
+        assertEquals(3, response.getTransactions().size());
+        assertEquals(balance, response.getBalance());
+        assertEquals(TransactionType.DEPOSIT, response.getTransactions().get(0).getType());
+        assertEquals(TransactionType.WITHDRAW, response.getTransactions().get(1).getType());
+        assertEquals(TransactionType.TRANSFER, response.getTransactions().get(2).getType());
+        assertEquals(accountRequest.getAgency(), response.getAgency());
+        assertEquals(accountRequest.getNumber(), response.getNumber());
+
+        associateService.deleteAssociate(associateResponse.getId())
                 .then()
                     .log().all()
                     .statusCode(HttpStatus.SC_NO_CONTENT)
@@ -76,7 +127,7 @@ public class StatementAccountTest {
                     .extract().as(SaveAssociateResponse.class)
                 ;
 
-        StatementAccountResponse response = accountService.statement(saveResponse.getAccounts().get(0).getId())
+        StatementAccountResponse response = accountService.statementAccount(saveResponse.getAccounts().get(0).getId())
                 .then()
                     .log().all()
                     .statusCode(HttpStatus.SC_OK)
@@ -102,11 +153,11 @@ public class StatementAccountTest {
     public void mustNotFindAccountStatementWithNonexistentId() {
         var invalidId = 16261837107330L;
 
-        accountService.statement(invalidId)
+        accountService.statementAccount(invalidId)
                 .then()
                     .log().all()
                     .statusCode(HttpStatus.SC_NOT_FOUND)
-                    .body(containsString(ACCOUNT_ERROR))
+                    .body(containsString(ACCOUNT_FIND_ERROR))
                 ;
     }
 
