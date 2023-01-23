@@ -13,6 +13,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+import static br.com.sicredi.bank.dto.Constantes.ASSOCIATE_FIND_ERROR;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -72,7 +73,7 @@ public class FindAssociateTest {
                 .then()
                     .log().all()
                     .statusCode(HttpStatus.SC_NOT_FOUND)
-                    .body(containsString("Associdado não encontrado."))
+                    .body(containsString(ASSOCIATE_FIND_ERROR))
                 ;
     }
 

@@ -7,7 +7,7 @@ import static io.restassured.RestAssured.given;
 
 public class AccountService {
 
-    public Response balance(Long id) {
+    public Response balanceAccount(Long id) {
         return
                 given()
                         .pathParam("id", id)
@@ -16,7 +16,7 @@ public class AccountService {
                 ;
     }
 
-    public Response statement(Long id) {
+    public Response statementAccount(Long id) {
         return
                 given()
                         .pathParam("id", id)

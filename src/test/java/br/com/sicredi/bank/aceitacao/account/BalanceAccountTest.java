@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
-import static br.com.sicredi.bank.dto.Constantes.ACCOUNT_ERROR;
+import static br.com.sicredi.bank.dto.Constantes.ACCOUNT_FIND_ERROR;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -24,9 +24,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @Epic("Balance Account")
 public class BalanceAccountTest {
 
-    AccountService accountService = new AccountService();
     AssociateService associateService = new AssociateService();
     AssociateBuilder associateBuilder = new AssociateBuilder();
+    AccountService accountService = new AccountService();
 
     @Test
     @Tag("all")
@@ -41,7 +41,7 @@ public class BalanceAccountTest {
                     .extract().as(SaveAssociateResponse.class)
                 ;
 
-        BalanceAccountResponse response = accountService.balance(saveResponse.getAccounts().get(0).getId())
+        BalanceAccountResponse response = accountService.balanceAccount(saveResponse.getAccounts().get(0).getId())
                 .then()
                     .log().all()
                     .statusCode(HttpStatus.SC_OK)
@@ -63,11 +63,11 @@ public class BalanceAccountTest {
     public void mustNotFindAccountBalanceWithNonexistentId() {
         var invalidId = 16261837107330L;
 
-        accountService.balance(invalidId)
+        accountService.balanceAccount(invalidId)
                 .then()
                     .log().all()
                     .statusCode(HttpStatus.SC_NOT_FOUND)
-                    .body(containsString(ACCOUNT_ERROR))
+                    .body(containsString(ACCOUNT_FIND_ERROR))
                 ;
     }
 
