@@ -20,10 +20,10 @@ public class AssociateEntity {
     private Long id;
     private String name;
     private String cpf;
-    private LocalDate birthDate;
+    private String birthDate;
     private String profession;
     private BigDecimal salary;
-    private LocalDate lastPaycheck;
+    private String lastPaycheck;
     private Set<AccountEntity> accountSet;
     private Set<ContractEntity> contractSet;
 

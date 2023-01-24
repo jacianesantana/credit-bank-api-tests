@@ -20,7 +20,7 @@ public class ProductResponse {
 
     private ProductType type;
     private Integer taxes;
-    private LocalDate firstPaymentDate;
+    private String firstPaymentDate;
     private List<Integer> plotsAvailable;
     private BigDecimal minValue;
     private BigDecimal maxValue;

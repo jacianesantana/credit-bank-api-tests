@@ -16,4 +16,27 @@ public class ContractBuilder {
                 .build();
     }
 
+    public ContractRequest buildContractWithInvalidNumberOfInstallments() {
+        ContractRequest invalidContract = buildContractRequest();
+        invalidContract.setNumberOfInstallments(0);
+
+        return invalidContract;
+    }
+
+    public ContractRequest buildContractWithInvalidValue() {
+        ContractRequest invalidContract = buildContractRequest();
+        invalidContract.setValue(BigDecimal.ZERO);
+
+        return invalidContract;
+    }
+
+    public ContractRequest buildContractWithNullFields() {
+        ContractRequest invalidContract = buildContractRequest();
+        invalidContract.setProductType(null);
+        invalidContract.setNumberOfInstallments(null);
+        invalidContract.setValue(null);
+
+        return invalidContract;
+    }
+
 }
