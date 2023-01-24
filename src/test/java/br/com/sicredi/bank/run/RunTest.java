@@ -7,6 +7,6 @@ import org.junit.runner.RunWith;
 
 @RunWith(JUnitPlatform.class)
 @SelectPackages("br.com.sicredi.bank.aceitacao")
-@IncludeTags("some")
+@IncludeTags("contract")
 public class RunTest {
 }
