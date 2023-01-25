@@ -1,10 +1,10 @@
 package br.com.sicredi.bank.acceptance.associate;
 
-import br.com.sicredi.bank.builder.associate.AssociateBuilder;
-import br.com.sicredi.bank.dto.request.associate.SaveAssociateRequest;
-import br.com.sicredi.bank.dto.request.associate.UpdateAssociateContactRequest;
-import br.com.sicredi.bank.dto.response.associate.SaveAssociateResponse;
-import br.com.sicredi.bank.dto.response.associate.UpdateAssociateContactResponse;
+import br.com.sicredi.bank.factory.associate.AssociateBuilder;
+import br.com.sicredi.bank.model.request.associate.SaveAssociateRequest;
+import br.com.sicredi.bank.model.request.associate.UpdateAssociateContactRequest;
+import br.com.sicredi.bank.model.response.associate.SaveAssociateResponse;
+import br.com.sicredi.bank.model.response.associate.UpdateAssociateContactResponse;
 import br.com.sicredi.bank.service.AssociateService;
 import br.com.sicredi.bank.utils.Utils;
 import io.qameta.allure.Description;
@@ -27,7 +27,7 @@ public class UpdateAssociateContactTest {
 
     @Test
     @Tag("all")
-    @Description("Deve atualizar contato do associado com sucesso")
+    @Description("Must update associate contact successfully")
     public void mustUpdateAssociateContactSuccessfully() {
         SaveAssociateRequest saveRequest = associateBuilder.buildSaveAssociateRequest();
 
@@ -53,7 +53,7 @@ public class UpdateAssociateContactTest {
 
     @Test
     @Tag("all")
-    @Description("Deve não atualizar contato do associado com id inexistente")
+    @Description("Must not update associate contact with nonexistent id")
     public void mustNotUpdateAssociateContactWithNonexistentId() {
         var invalidId = 9999999999999999L;
 
@@ -68,7 +68,7 @@ public class UpdateAssociateContactTest {
 
     @Test
     @Tag("all")
-    @Description("Deve não atualizar contato do associado sem preencher campos obrigatórios")
+    @Description("Must not update associate contact with empty fields")
     public void mustNotUpdateAssociateContactWithEmptyFields() {
         SaveAssociateRequest saveRequest = associateBuilder.buildSaveAssociateRequest();
 
@@ -79,7 +79,8 @@ public class UpdateAssociateContactTest {
         UpdateAssociateContactRequest updateRequest = associateBuilder.buildUpdateAssociateContactWithEmptyFields();
 
         associateService
-                .updateAssociateContact(saveResponse.getId(), Utils.convertUpdateAssociateContactRequestToJson(updateRequest))
+                .updateAssociateContact(saveResponse.getId(),
+                        Utils.convertUpdateAssociateContactRequestToJson(updateRequest))
                 .then()
                     .log().all()
                     .statusCode(HttpStatus.SC_BAD_REQUEST)
@@ -91,7 +92,7 @@ public class UpdateAssociateContactTest {
 
     @Test
     @Tag("all")
-    @Description("Deve não atualizar contato do associado com campos nulos")
+    @Description("Must not update associate contact with null fields")
     public void mustNotUpdateAssociateContactWithNullFields() {
         SaveAssociateRequest saveRequest = associateBuilder.buildSaveAssociateRequest();
 
@@ -102,7 +103,8 @@ public class UpdateAssociateContactTest {
         UpdateAssociateContactRequest updateRequest = associateBuilder.buildUpdateAssociateContactWithNullFields();
 
         associateService
-                .updateAssociateContact(saveResponse.getId(), Utils.convertUpdateAssociateContactRequestToJson(updateRequest))
+                .updateAssociateContact(saveResponse.getId(),
+                        Utils.convertUpdateAssociateContactRequestToJson(updateRequest))
                 .then()
                     .log().all()
                     .statusCode(HttpStatus.SC_BAD_REQUEST)

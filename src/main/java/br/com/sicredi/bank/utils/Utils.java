@@ -1,14 +1,17 @@
 package br.com.sicredi.bank.utils;
 
-import br.com.sicredi.bank.dto.request.address.AddressRequest;
-import br.com.sicredi.bank.dto.request.associate.SaveAssociateRequest;
-import br.com.sicredi.bank.dto.request.associate.UpdateAssociateContactRequest;
-import br.com.sicredi.bank.dto.request.associate.UpdateAssociatePaycheckRequest;
-import br.com.sicredi.bank.dto.request.contract.ContractRequest;
-import br.com.sicredi.bank.dto.request.transaction.DepositTransactionRequest;
-import br.com.sicredi.bank.dto.request.transaction.TransferTransactionRequest;
-import br.com.sicredi.bank.dto.request.transaction.WithdrawTransactionRequest;
+import br.com.sicredi.bank.model.request.address.AddressRequest;
+import br.com.sicredi.bank.model.request.associate.SaveAssociateRequest;
+import br.com.sicredi.bank.model.request.associate.UpdateAssociateContactRequest;
+import br.com.sicredi.bank.model.request.associate.UpdateAssociatePaycheckRequest;
+import br.com.sicredi.bank.model.request.contract.ContractRequest;
+import br.com.sicredi.bank.model.request.transaction.DepositTransactionRequest;
+import br.com.sicredi.bank.model.request.transaction.TransferTransactionRequest;
+import br.com.sicredi.bank.model.request.transaction.WithdrawTransactionRequest;
 import com.google.gson.Gson;
+import net.datafaker.Faker;
+
+import java.util.Locale;
 
 public class Utils {
 

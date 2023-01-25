@@ -1,6 +1,6 @@
 package br.com.sicredi.bank.acceptance.product;
 
-import br.com.sicredi.bank.dto.enums.ProductType;
+import br.com.sicredi.bank.model.enums.ProductType;
 import br.com.sicredi.bank.service.ProductService;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
@@ -22,7 +22,7 @@ public class ListProductTest {
 
     @Test
     @Tag("all")
-    @Description("Deve listar produtos com salário entre 1500 e 2999 com sucesso")
+    @Description("Must list products with salary between 1500 and 2999 successfully")
     public void mustListProductsWithSalaryBetween1500And2999Successfully() {
         var salary = BigDecimal.valueOf(2000);
 
@@ -35,7 +35,7 @@ public class ListProductTest {
 
     @Test
     @Tag("all")
-    @Description("Deve listar produtos com salário entre 3000 e 4999 com sucesso")
+    @Description("Must list products with salary between 3000 and 4999 successfully")
     public void mustListProductsWithSalaryBetween3000And4999Successfully() {
         var salary = BigDecimal.valueOf(4000);
 
@@ -49,7 +49,7 @@ public class ListProductTest {
 
     @Test
     @Tag("all")
-    @Description("Deve listar produtos com salário a partir de 5000 com sucesso")
+    @Description("Must list products with salary from 5000 successfully")
     public void mustListProductsWithSalaryFrom5000Successfully() {
         var salary = BigDecimal.valueOf(5000);
 
@@ -64,7 +64,7 @@ public class ListProductTest {
 
     @Test
     @Tag("all")
-    @Description("Deve não listar produtos com salário abaixo de 1500")
+    @Description("Must not list products with salary below 1500")
     public void mustNotListProductsWithSalaryBelow1500() {
         var salary = BigDecimal.valueOf(1499);
 

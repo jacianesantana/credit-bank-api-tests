@@ -1,11 +1,9 @@
 package br.com.sicredi.bank.acceptance.contract;
 
-import br.com.sicredi.bank.builder.associate.AssociateBuilder;
-import br.com.sicredi.bank.builder.contract.ContractBuilder;
-import br.com.sicredi.bank.dto.request.contract.ContractRequest;
-import br.com.sicredi.bank.dto.response.contract.FindContractResponse;
-import br.com.sicredi.bank.dto.response.contract.SaveContractResponse;
-import br.com.sicredi.bank.service.AssociateService;
+import br.com.sicredi.bank.factory.contract.ContractBuilder;
+import br.com.sicredi.bank.model.request.contract.ContractRequest;
+import br.com.sicredi.bank.model.response.contract.FindContractResponse;
+import br.com.sicredi.bank.model.response.contract.SaveContractResponse;
 import br.com.sicredi.bank.service.ContractService;
 import br.com.sicredi.bank.utils.Utils;
 import io.qameta.allure.Description;
@@ -18,27 +16,27 @@ import org.junit.jupiter.api.Test;
 import static br.com.sicredi.bank.utils.Message.CONTRACT_FIND_ERROR;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @DisplayName("Contract")
 @Epic("Find Contract")
 public class FindContractTest {
 
-    AssociateService associateService = new AssociateService();
-    AssociateBuilder associateBuilder = new AssociateBuilder();
     ContractService contractService = new ContractService();
     ContractBuilder contractBuilder = new ContractBuilder();
 
     @Test
-    @Tag("error")
-    @Description("Deve buscar contrato com sucesso")
+    @Tag("all")
+    @Description("Must find contract successfully")
     public void mustFindContractSuccessfully() {
-        var idAssociate = 1L;
+        // Devido a regra de negócio, não é possível deletar associado com contrato ativo
+
+        var savedIdAssociate = 1L;
 
         ContractRequest contractRequest = contractBuilder.buildContractRequest();
-        contractRequest.setIdAssociate(idAssociate);
+        contractRequest.setIdAssociate(savedIdAssociate);
 
-        SaveContractResponse contractResponse = contractService.signContract(Utils.convertContractRequestToJson(contractRequest))
+        SaveContractResponse contractResponse = contractService
+                .signContract(Utils.convertContractRequestToJson(contractRequest))
                 .then().extract().as(SaveContractResponse.class);
 
         FindContractResponse response = contractService.findContract(contractResponse.getId())
@@ -48,7 +46,7 @@ public class FindContractTest {
                     .extract().as(FindContractResponse.class);
 
         assertEquals(contractResponse.getId(), response.getId());
-        assertEquals(idAssociate, response.getAssociate().getId());
+        assertEquals(savedIdAssociate, response.getAssociate().getId());
         assertEquals(contractResponse.getProductType(), response.getProduct().getType());
         assertEquals(contractResponse.getValue(), response.getValue());
         assertEquals(contractResponse.getPaidOff(), response.getPaidOff());
@@ -61,7 +59,7 @@ public class FindContractTest {
 
     @Test
     @Tag("all")
-    @Description("Deve não buscar contrato com id inexistente")
+    @Description("Must not find contract with nonexistent id")
     public void mustNotFindContractWithNonexistentId() {
         var invalidId = 9999999999999999L;
 

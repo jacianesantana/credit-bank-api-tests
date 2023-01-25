@@ -1,9 +1,9 @@
 package br.com.sicredi.bank.acceptance.associate;
 
-import br.com.sicredi.bank.builder.associate.AssociateBuilder;
-import br.com.sicredi.bank.dto.request.associate.SaveAssociateRequest;
-import br.com.sicredi.bank.dto.response.associate.FindAssociateResponse;
-import br.com.sicredi.bank.dto.response.associate.SaveAssociateResponse;
+import br.com.sicredi.bank.factory.associate.AssociateBuilder;
+import br.com.sicredi.bank.model.request.associate.SaveAssociateRequest;
+import br.com.sicredi.bank.model.response.associate.FindAssociateResponse;
+import br.com.sicredi.bank.model.response.associate.SaveAssociateResponse;
 import br.com.sicredi.bank.service.AssociateService;
 import br.com.sicredi.bank.utils.Utils;
 import io.qameta.allure.Description;
@@ -26,7 +26,7 @@ public class FindAssociateContractTest {
 
     @Test
     @Tag("all")
-    @Description("Deve buscar associado com sucesso")
+    @Description("Must find associate successfully")
     public void mustFindAssociateSuccessfully() {
         SaveAssociateRequest saveRequest = associateBuilder.buildSaveAssociateRequest();
 
@@ -56,7 +56,7 @@ public class FindAssociateContractTest {
 
     @Test
     @Tag("all")
-    @Description("Deve não buscar associado com id inexistente")
+    @Description("Must not find associate with nonexistent id")
     public void mustNotFindAssociateWithNonexistentId() {
         var invalidId = 9999999999999999L;
 

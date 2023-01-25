@@ -1,0 +1,132 @@
+{
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "cpf",
+    "birthDate",
+    "phone",
+    "email",
+    "profession",
+    "salary",
+    "lastPaycheck",
+    "addresses",
+    "accounts",
+    "contracts"
+  ],
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "name": {
+      "type": "string"
+    },
+    "cpf": {
+      "type": "string"
+    },
+    "birthDate": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "profession": {
+      "type": "string"
+    },
+    "salary": {
+      "type": "number"
+    },
+    "lastPaycheck": {
+      "type": "string"
+    },
+    "addresses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "zipCode",
+          "streetName",
+          "number",
+          "complement",
+          "city",
+          "state",
+          "country"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "zipCode": {
+            "type": "string"
+          },
+          "streetName": {
+            "type": "string"
+          },
+          "number": {
+            "type": "string"
+          },
+          "complement": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "accounts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "type",
+          "agency",
+          "number"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "type": {
+            "type": "string"
+          },
+          "agency": {
+            "type": "integer"
+          },
+          "number": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "contracts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "paidOff"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "paidOff": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  }
+}
