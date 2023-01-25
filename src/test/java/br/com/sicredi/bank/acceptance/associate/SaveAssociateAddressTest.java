@@ -1,11 +1,11 @@
 package br.com.sicredi.bank.acceptance.associate;
 
-import br.com.sicredi.bank.builder.associate.AddressBuilder;
-import br.com.sicredi.bank.builder.associate.AssociateBuilder;
-import br.com.sicredi.bank.dto.request.address.AddressRequest;
-import br.com.sicredi.bank.dto.request.associate.SaveAssociateRequest;
-import br.com.sicredi.bank.dto.response.address.AddressResponse;
-import br.com.sicredi.bank.dto.response.associate.SaveAssociateResponse;
+import br.com.sicredi.bank.factory.associate.AddressBuilder;
+import br.com.sicredi.bank.factory.associate.AssociateBuilder;
+import br.com.sicredi.bank.model.request.address.AddressRequest;
+import br.com.sicredi.bank.model.request.associate.SaveAssociateRequest;
+import br.com.sicredi.bank.model.response.address.AddressResponse;
+import br.com.sicredi.bank.model.response.associate.SaveAssociateResponse;
 import br.com.sicredi.bank.service.AssociateService;
 import br.com.sicredi.bank.utils.Utils;
 import io.qameta.allure.Description;
@@ -30,7 +30,7 @@ public class SaveAssociateAddressTest {
 
     @Test
     @Tag("all")
-    @Description("Deve salvar endereço do associado com sucesso")
+    @Description("Must save associate address successfully")
     public void mustSaveAssociateAddressSuccessfully() {
         SaveAssociateRequest associateRequest = associateBuilder.buildSaveAssociateRequest();
 
@@ -60,7 +60,7 @@ public class SaveAssociateAddressTest {
 
     @Test
     @Tag("all")
-    @Description("Deve não salvar endereço do associado com idAssociate inexistente")
+    @Description("Must not save associate address with nonexistent idAssociate")
     public void mustNotSaveAssociateAddressWithNonexistentIdAssociate() {
         var invalidId = 9999999999999999L;
 
@@ -75,7 +75,7 @@ public class SaveAssociateAddressTest {
 
     @Test
     @Tag("all")
-    @Description("Deve não salvar endereço do associado sem preencher campos obrigatórios")
+    @Description("Must not save associate address with empty fields")
     public void mustNotSaveAssociateAddressWithEmptyFields() {
         SaveAssociateRequest associateRequest = associateBuilder.buildSaveAssociateRequest();
 
@@ -101,7 +101,7 @@ public class SaveAssociateAddressTest {
 
     @Test
     @Tag("all")
-    @Description("Deve não salvar endereço do associado com campos nulos")
+    @Description("Must not save associate address with null fields")
     public void mustNotSaveAssociateAddressWithNullFields() {
         SaveAssociateRequest associateRequest = associateBuilder.buildSaveAssociateRequest();
 

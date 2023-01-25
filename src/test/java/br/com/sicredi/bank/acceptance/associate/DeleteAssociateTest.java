@@ -1,10 +1,10 @@
 package br.com.sicredi.bank.acceptance.associate;
 
-import br.com.sicredi.bank.builder.associate.AssociateBuilder;
-import br.com.sicredi.bank.builder.contract.ContractBuilder;
-import br.com.sicredi.bank.dto.request.associate.SaveAssociateRequest;
-import br.com.sicredi.bank.dto.request.contract.ContractRequest;
-import br.com.sicredi.bank.dto.response.associate.SaveAssociateResponse;
+import br.com.sicredi.bank.factory.associate.AssociateBuilder;
+import br.com.sicredi.bank.factory.contract.ContractBuilder;
+import br.com.sicredi.bank.model.request.associate.SaveAssociateRequest;
+import br.com.sicredi.bank.model.request.contract.ContractRequest;
+import br.com.sicredi.bank.model.response.associate.SaveAssociateResponse;
 import br.com.sicredi.bank.service.AssociateService;
 import br.com.sicredi.bank.service.ContractService;
 import br.com.sicredi.bank.utils.Utils;
@@ -30,7 +30,7 @@ public class DeleteAssociateTest {
 
     @Test
     @Tag("all")
-    @Description("Deve deletar associado com sucesso")
+    @Description("Must delete associate successfully")
     public void mustDeleteAssociateSuccessfully() {
         SaveAssociateRequest request = associateBuilder.buildSaveAssociateRequest();
 
@@ -45,7 +45,7 @@ public class DeleteAssociateTest {
 
     @Test
     @Tag("all")
-    @Description("Deve não deletar associado com id inexistente")
+    @Description("Must not delete associate with nonexistent id")
     public void mustNotDeleteAssociateWithNonexistentId() {
         var invalidId = 9999999999999999L;
 
@@ -58,7 +58,7 @@ public class DeleteAssociateTest {
 
     @Test
     @Tag("all")
-    @Description("Deve não deletar associado com contrato ativo")
+    @Description("Must not delete associate with active contract")
     public void mustNotDeleteAssociateWithActiveContract() {
         SaveAssociateRequest associateRequest = associateBuilder.buildSaveAssociateRequest();
 

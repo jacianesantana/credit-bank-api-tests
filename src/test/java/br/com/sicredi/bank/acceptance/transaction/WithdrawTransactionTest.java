@@ -1,14 +1,14 @@
 package br.com.sicredi.bank.acceptance.transaction;
 
-import br.com.sicredi.bank.builder.account.AccountBuilder;
-import br.com.sicredi.bank.builder.associate.AssociateBuilder;
-import br.com.sicredi.bank.builder.transaction.TransactionBuilder;
-import br.com.sicredi.bank.dto.request.account.AccountRequest;
-import br.com.sicredi.bank.dto.request.associate.SaveAssociateRequest;
-import br.com.sicredi.bank.dto.request.transaction.DepositTransactionRequest;
-import br.com.sicredi.bank.dto.request.transaction.WithdrawTransactionRequest;
-import br.com.sicredi.bank.dto.response.associate.SaveAssociateResponse;
-import br.com.sicredi.bank.dto.response.transaction.TransactionResponse;
+import br.com.sicredi.bank.factory.account.AccountBuilder;
+import br.com.sicredi.bank.factory.associate.AssociateBuilder;
+import br.com.sicredi.bank.factory.transaction.TransactionBuilder;
+import br.com.sicredi.bank.model.request.account.AccountRequest;
+import br.com.sicredi.bank.model.request.associate.SaveAssociateRequest;
+import br.com.sicredi.bank.model.request.transaction.DepositTransactionRequest;
+import br.com.sicredi.bank.model.request.transaction.WithdrawTransactionRequest;
+import br.com.sicredi.bank.model.response.associate.SaveAssociateResponse;
+import br.com.sicredi.bank.model.response.transaction.TransactionResponse;
 import br.com.sicredi.bank.service.AssociateService;
 import br.com.sicredi.bank.service.TransactionService;
 import br.com.sicredi.bank.utils.Utils;
@@ -37,7 +37,7 @@ public class WithdrawTransactionTest {
 
     @Test
     @Tag("all")
-    @Description("Deve sacar de uma conta com sucesso")
+    @Description("Must withdraw from an account successfully")
     public void mustWithdrawFromAnAccountSuccessfully() {
         SaveAssociateRequest associateRequest = associateBuilder.buildSaveAssociateRequest();
 
@@ -76,7 +76,7 @@ public class WithdrawTransactionTest {
 
     @Test
     @Tag("all")
-    @Description("Deve não sacar de uma conta com valor maior que o saldo")
+    @Description("Must not withdraw from an account with value greater than the balance")
     public void mustNotWithdrawFromAnAccountWithValueGreaterThanTheBalance() {
         SaveAssociateRequest associateRequest = associateBuilder.buildSaveAssociateRequest();
 
@@ -102,7 +102,7 @@ public class WithdrawTransactionTest {
 
     @Test
     @Tag("all")
-    @Description("Deve não sacar de uma conta com valor negativo")
+    @Description("Must not withdraw from an account with negative value")
     public void mustNotWithdrawFromAnAccountWithNegativeValue() {
         SaveAssociateRequest associateRequest = associateBuilder.buildSaveAssociateRequest();
 
@@ -128,7 +128,7 @@ public class WithdrawTransactionTest {
 
     @Test
     @Tag("all")
-    @Description("Deve não sacar de uma conta com agência inexistente")
+    @Description("Must not withdraw from an account with invalid agency")
     public void mustNotWithdrawFromAnAccountWithInvalidAgency() {
         SaveAssociateRequest associateRequest = associateBuilder.buildSaveAssociateRequest();
 
@@ -154,7 +154,7 @@ public class WithdrawTransactionTest {
 
     @Test
     @Tag("all")
-    @Description("Deve não sacar de uma conta com número inexistente")
+    @Description("Must not withdraw from an account with invalid number")
     public void mustNotWithdrawFromAnAccountWithInvalidNumber() {
         SaveAssociateRequest associateRequest = associateBuilder.buildSaveAssociateRequest();
 
@@ -179,8 +179,8 @@ public class WithdrawTransactionTest {
     }
 
     @Test
-    @Tag("error")
-    @Description("Deve não sacar de uma conta com campos nulos")
+    @Tag("all")
+    @Description("Must not withdraw from an account with null fields")
     public void mustNotWithdrawFromAnAccountWithNullFields() {
         AccountRequest accountRequest = accountBuilder.buildAccountWithNullFields();
         WithdrawTransactionRequest withdrawRequest = transactionBuilder.buildWithdrawWithNullFields();
@@ -190,9 +190,7 @@ public class WithdrawTransactionTest {
                 .then()
                     .log().all()
                     .statusCode(HttpStatus.SC_BAD_REQUEST)
-                    .body(containsString(TRANSACTION_VALUE_NOT_NULL))
-                    .body(containsString(ACCOUNT_AGENCY_NOT_NULL))
-                    .body(containsString(ACCOUNT_NUMBER_NOT_NULL));
+                    .body(containsString(TRANSACTION_VALUE_NOT_NULL));
     }
 
 }

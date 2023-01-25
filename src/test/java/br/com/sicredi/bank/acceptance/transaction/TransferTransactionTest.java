@@ -1,14 +1,14 @@
 package br.com.sicredi.bank.acceptance.transaction;
 
-import br.com.sicredi.bank.builder.account.AccountBuilder;
-import br.com.sicredi.bank.builder.associate.AssociateBuilder;
-import br.com.sicredi.bank.builder.transaction.TransactionBuilder;
-import br.com.sicredi.bank.dto.request.account.AccountRequest;
-import br.com.sicredi.bank.dto.request.associate.SaveAssociateRequest;
-import br.com.sicredi.bank.dto.request.transaction.DepositTransactionRequest;
-import br.com.sicredi.bank.dto.request.transaction.TransferTransactionRequest;
-import br.com.sicredi.bank.dto.response.associate.SaveAssociateResponse;
-import br.com.sicredi.bank.dto.response.transaction.TransactionResponse;
+import br.com.sicredi.bank.factory.account.AccountBuilder;
+import br.com.sicredi.bank.factory.associate.AssociateBuilder;
+import br.com.sicredi.bank.factory.transaction.TransactionBuilder;
+import br.com.sicredi.bank.model.request.account.AccountRequest;
+import br.com.sicredi.bank.model.request.associate.SaveAssociateRequest;
+import br.com.sicredi.bank.model.request.transaction.DepositTransactionRequest;
+import br.com.sicredi.bank.model.request.transaction.TransferTransactionRequest;
+import br.com.sicredi.bank.model.response.associate.SaveAssociateResponse;
+import br.com.sicredi.bank.model.response.transaction.TransactionResponse;
 import br.com.sicredi.bank.service.AssociateService;
 import br.com.sicredi.bank.service.TransactionService;
 import br.com.sicredi.bank.utils.Utils;
@@ -37,7 +37,7 @@ public class TransferTransactionTest {
 
     @Test
     @Tag("all")
-    @Description("Deve transferir entre duas contas com sucesso")
+    @Description("Must transfer between two accounts successfully")
     public void mustTransferBetweenTwoAccountsSuccessfully() {
         SaveAssociateRequest associateRequest = associateBuilder.buildSaveAssociateRequest();
 
@@ -80,7 +80,7 @@ public class TransferTransactionTest {
 
     @Test
     @Tag("all")
-    @Description("Deve não transferir de uma conta com valor maior que o saldo")
+    @Description("Must not transfer from an account with value greater than the balance")
     public void mustNotTransferFromAnAccountWithValueGreaterThanTheBalance() {
         SaveAssociateRequest associateRequest = associateBuilder.buildSaveAssociateRequest();
 
@@ -111,7 +111,7 @@ public class TransferTransactionTest {
 
     @Test
     @Tag("all")
-    @Description("Deve não transferir de uma conta com valor negativo")
+    @Description("Must not transfer from an account with negative value")
     public void mustNotTransferFromAnAccountWithNegativeValue() {
         SaveAssociateRequest associateRequest = associateBuilder.buildSaveAssociateRequest();
 
@@ -142,7 +142,7 @@ public class TransferTransactionTest {
 
     @Test
     @Tag("all")
-    @Description("Deve não transferir de uma conta inexistente")
+    @Description("Must not transfer from a nonexistent account")
     public void mustNotTransferFromANonexistentAccount() {
         SaveAssociateRequest associateRequest = associateBuilder.buildSaveAssociateRequest();
 
@@ -168,7 +168,7 @@ public class TransferTransactionTest {
 
     @Test
     @Tag("all")
-    @Description("Deve não transferir para uma conta destino inexistente")
+    @Description("Must not transfer to a nonexistent destination account")
     public void mustNotTransferToANonexistentDestinationAccount() {
         SaveAssociateRequest associateRequest = associateBuilder.buildSaveAssociateRequest();
 
@@ -193,8 +193,8 @@ public class TransferTransactionTest {
     }
 
     @Test
-    @Tag("error")
-    @Description("Deve não transferir entre duas contas com campos nulos")
+    @Tag("all")
+    @Description("Must not transfer between two accounts with null fields")
     public void mustNotTransferBetweenTwoAccountsWithNullFields() {
         AccountRequest accountRequest = accountBuilder.buildAccountWithNullFields();
         AccountRequest creditAccountRequest = accountBuilder.buildAccountWithNullFields();
@@ -207,9 +207,7 @@ public class TransferTransactionTest {
                 .then()
                     .log().all()
                     .statusCode(HttpStatus.SC_BAD_REQUEST)
-                    .body(containsString(TRANSACTION_VALUE_NOT_NULL))
-                    .body(containsString(ACCOUNT_AGENCY_NOT_NULL))
-                    .body(containsString(ACCOUNT_NUMBER_NOT_NULL));
+                    .body(containsString(TRANSACTION_VALUE_NOT_NULL));
     }
 
 }

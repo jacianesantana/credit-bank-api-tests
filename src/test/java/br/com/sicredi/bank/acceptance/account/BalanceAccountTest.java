@@ -1,9 +1,9 @@
 package br.com.sicredi.bank.acceptance.account;
 
-import br.com.sicredi.bank.builder.associate.AssociateBuilder;
-import br.com.sicredi.bank.dto.request.associate.SaveAssociateRequest;
-import br.com.sicredi.bank.dto.response.account.BalanceAccountResponse;
-import br.com.sicredi.bank.dto.response.associate.SaveAssociateResponse;
+import br.com.sicredi.bank.factory.associate.AssociateBuilder;
+import br.com.sicredi.bank.model.request.associate.SaveAssociateRequest;
+import br.com.sicredi.bank.model.response.account.BalanceAccountResponse;
+import br.com.sicredi.bank.model.response.associate.SaveAssociateResponse;
 import br.com.sicredi.bank.service.AccountService;
 import br.com.sicredi.bank.service.AssociateService;
 import br.com.sicredi.bank.utils.Utils;
@@ -30,11 +30,12 @@ public class BalanceAccountTest {
 
     @Test
     @Tag("all")
-    @Description("Deve buscar saldo de conta com sucesso")
+    @Description("Must find account balance successfully")
     public void mustFindAccountBalanceSuccessfully() {
         SaveAssociateRequest saveRequest = associateBuilder.buildSaveAssociateRequest();
 
-        SaveAssociateResponse saveResponse = associateService.saveAssociate(Utils.convertSaveAssociateRequestToJson(saveRequest))
+        SaveAssociateResponse saveResponse = associateService
+                .saveAssociate(Utils.convertSaveAssociateRequestToJson(saveRequest))
                 .then().extract().as(SaveAssociateResponse.class);
 
         BalanceAccountResponse response = accountService.balanceAccount(saveResponse.getAccounts().get(0).getId())
@@ -50,7 +51,7 @@ public class BalanceAccountTest {
 
     @Test
     @Tag("all")
-    @Description("Deve não buscar saldo de conta com id inexistente")
+    @Description("Must not find account balance with nonexistent id")
     public void mustNotFindAccountBalanceWithNonexistentId() {
         var invalidId = 9999999999999999L;
 

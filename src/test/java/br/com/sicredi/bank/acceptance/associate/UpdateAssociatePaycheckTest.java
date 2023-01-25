@@ -1,10 +1,10 @@
 package br.com.sicredi.bank.acceptance.associate;
 
-import br.com.sicredi.bank.builder.associate.AssociateBuilder;
-import br.com.sicredi.bank.dto.request.associate.SaveAssociateRequest;
-import br.com.sicredi.bank.dto.request.associate.UpdateAssociatePaycheckRequest;
-import br.com.sicredi.bank.dto.response.associate.SaveAssociateResponse;
-import br.com.sicredi.bank.dto.response.associate.UpdateAssociatePaycheckResponse;
+import br.com.sicredi.bank.factory.associate.AssociateBuilder;
+import br.com.sicredi.bank.model.request.associate.SaveAssociateRequest;
+import br.com.sicredi.bank.model.request.associate.UpdateAssociatePaycheckRequest;
+import br.com.sicredi.bank.model.response.associate.SaveAssociateResponse;
+import br.com.sicredi.bank.model.response.associate.UpdateAssociatePaycheckResponse;
 import br.com.sicredi.bank.service.AssociateService;
 import br.com.sicredi.bank.utils.Utils;
 import io.qameta.allure.Description;
@@ -29,23 +29,22 @@ public class UpdateAssociatePaycheckTest {
 
     @Test
     @Tag("all")
-    @Description("Deve atualizar contra-cheque do associado com sucesso")
+    @Description("Must update associate paycheck successfully")
     public void mustUpdateAssociatePaycheckSuccessfully() {
-        // NÃO É POSSÍVEL CRIAR TESTE INDEPENDENTE,
-        // POIS NÃO É POSSÍVEL ATUALIZAR PAYCHECK ANTES DE 3 MESES DA ÚLTIMA ATUALIZAÇÃO
+        // Devido a regra de negócio, é necessário id de associado com mais de 3 meses desde a última atualização
 
-        var id = 2L;
+        var savedId = 1L;
 
         UpdateAssociatePaycheckRequest updateRequest = associateBuilder.buildUpdateAssociatePaycheckRequest();
 
         UpdateAssociatePaycheckResponse updateResponse = associateService
-                .updateAssociatePaycheck(id, Utils.convertUpdateAssociatePaycheckRequestToJson(updateRequest))
+                .updateAssociatePaycheck(savedId, Utils.convertUpdateAssociatePaycheckRequestToJson(updateRequest))
                 .then()
                     .log().all()
                     .statusCode(HttpStatus.SC_OK)
                     .extract().as(UpdateAssociatePaycheckResponse.class);
 
-        assertEquals(id, updateResponse.getId());
+        assertEquals(savedId, updateResponse.getId());
         assertEquals(updateRequest.getProfession(), updateResponse.getProfession());
         assertEquals(updateRequest.getSalary(), updateResponse.getSalary());
         assertEquals(LocalDate.now().toString(), updateResponse.getLastPaycheck());
@@ -53,7 +52,7 @@ public class UpdateAssociatePaycheckTest {
 
     @Test
     @Tag("all")
-    @Description("Deve não atualizar contra-cheque do associado com id inexistente")
+    @Description("Must not update associate paycheck with nonexistent id")
     public void mustNotUpdateAssociatePaycheckWithNonexistentId() {
         var invalidId = 9999999999999999L;
 
@@ -68,7 +67,7 @@ public class UpdateAssociatePaycheckTest {
 
     @Test
     @Tag("all")
-    @Description("Deve não atualizar contra-cheque do associado com salário negativo")
+    @Description("Must not update associate paycheck with negative salary")
     public void mustNotUpdateAssociatePaycheckWithNegativeSalary() {
         SaveAssociateRequest saveRequest = associateBuilder.buildSaveAssociateRequest();
 
@@ -89,7 +88,7 @@ public class UpdateAssociatePaycheckTest {
 
     @Test
     @Tag("all")
-    @Description("Deve não atualizar contra-cheque do associado sem preencher profissão")
+    @Description("Must not update associate paycheck with empty profession")
     public void mustNotUpdateAssociatePaycheckWithEmptyProfession() {
         SaveAssociateRequest saveRequest = associateBuilder.buildSaveAssociateRequest();
 
@@ -110,7 +109,7 @@ public class UpdateAssociatePaycheckTest {
 
     @Test
     @Tag("all")
-    @Description("Deve não atualizar contra-cheque do associado com menos de 3 meses da última atualização")
+    @Description("Must not update associate paycheck less than 3 months after the last update")
     public void mustNotUpdateAssociatePaycheckWithInvalidLastPaycheck() {
         SaveAssociateRequest saveRequest = associateBuilder.buildSaveAssociateRequest();
 

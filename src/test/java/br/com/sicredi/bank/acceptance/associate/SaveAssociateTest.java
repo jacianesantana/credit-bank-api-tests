@@ -1,8 +1,8 @@
 package br.com.sicredi.bank.acceptance.associate;
 
-import br.com.sicredi.bank.builder.associate.AssociateBuilder;
-import br.com.sicredi.bank.dto.request.associate.SaveAssociateRequest;
-import br.com.sicredi.bank.dto.response.associate.SaveAssociateResponse;
+import br.com.sicredi.bank.factory.associate.AssociateBuilder;
+import br.com.sicredi.bank.model.request.associate.SaveAssociateRequest;
+import br.com.sicredi.bank.model.response.associate.SaveAssociateResponse;
 import br.com.sicredi.bank.service.AssociateService;
 import br.com.sicredi.bank.utils.Utils;
 import io.qameta.allure.Description;
@@ -27,7 +27,7 @@ public class SaveAssociateTest {
 
     @Test
     @Tag("all")
-    @Description("Deve salvar associado com sucesso")
+    @Description("Must save associate successfully")
     public void mustSaveAssociateSuccessfully() {
         SaveAssociateRequest request = associateBuilder.buildSaveAssociateRequest();
 
@@ -54,7 +54,7 @@ public class SaveAssociateTest {
 
     @Test
     @Tag("all")
-    @Description("Deve não salvar associado com cpf já cadastrado")
+    @Description("Must not save associate with registered CPF")
     public void mustNotSaveAssociateWithRegisteredCpf() {
         SaveAssociateRequest request = associateBuilder.buildSaveAssociateRequest();
 
@@ -72,7 +72,7 @@ public class SaveAssociateTest {
 
     @Test
     @Tag("all")
-    @Description("Deve não salvar associado com idade abaixo de 18 anos")
+    @Description("Must not save underage associate")
     public void mustNotSaveUnderageAssociate() {
         SaveAssociateRequest invalidRequest = associateBuilder.buildSaveAssociateWithInvalidBirthDate();
 
@@ -85,7 +85,7 @@ public class SaveAssociateTest {
 
     @Test
     @Tag("all")
-    @Description("Deve não salvar associado com salário negativo")
+    @Description("Must not save associate with negative salary")
     public void mustNotSaveAssociateWithNegativeSalary() {
         SaveAssociateRequest invalidRequest = associateBuilder.buildSaveAssociateWithInvalidSalary();
 
@@ -98,7 +98,7 @@ public class SaveAssociateTest {
 
     @Test
     @Tag("all")
-    @Description("Deve não salvar associado com cpf inválido")
+    @Description("Must not save associate with invalid CPF")
     public void mustNotSaveAssociateWithInvalidCpf() {
         SaveAssociateRequest invalidRequest = associateBuilder.buildSaveAssociateWithInvalidCpf();
 
@@ -111,7 +111,7 @@ public class SaveAssociateTest {
 
     @Test
     @Tag("all")
-    @Description("Deve não salvar associado com email inválido")
+    @Description("Must not save associate with invalid email")
     public void mustNotSaveAssociateWithInvalidEmail() {
         SaveAssociateRequest invalidRequest = associateBuilder.buildSaveAssociateWithInvalidEmail();
 
@@ -124,7 +124,7 @@ public class SaveAssociateTest {
 
     @Test
     @Tag("all")
-    @Description("Deve não salvar associado sem preencher campos obrigatórios")
+    @Description("Must not save associate with empty fields")
     public void mustNotSaveAssociateWithEmptyFields() {
         SaveAssociateRequest invalidRequest = associateBuilder.buildSaveAssociateWithEmptyFields();
 
@@ -141,7 +141,7 @@ public class SaveAssociateTest {
 
     @Test
     @Tag("all")
-    @Description("Deve não salvar associado com campos nulos")
+    @Description("Must not save associate with null fields")
     public void mustNotSaveAssociateWithNullFields() {
         SaveAssociateRequest invalidRequest = associateBuilder.buildSaveAssociateWithNullFields();
 

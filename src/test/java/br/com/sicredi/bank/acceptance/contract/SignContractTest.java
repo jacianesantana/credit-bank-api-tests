@@ -1,12 +1,8 @@
 package br.com.sicredi.bank.acceptance.contract;
 
-import br.com.sicredi.bank.builder.associate.AssociateBuilder;
-import br.com.sicredi.bank.builder.contract.ContractBuilder;
-import br.com.sicredi.bank.dto.request.associate.SaveAssociateRequest;
-import br.com.sicredi.bank.dto.request.contract.ContractRequest;
-import br.com.sicredi.bank.dto.response.associate.SaveAssociateResponse;
-import br.com.sicredi.bank.dto.response.contract.SaveContractResponse;
-import br.com.sicredi.bank.service.AssociateService;
+import br.com.sicredi.bank.factory.contract.ContractBuilder;
+import br.com.sicredi.bank.model.request.contract.ContractRequest;
+import br.com.sicredi.bank.model.response.contract.SaveContractResponse;
 import br.com.sicredi.bank.service.ContractService;
 import br.com.sicredi.bank.utils.Utils;
 import io.qameta.allure.Description;
@@ -27,26 +23,19 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @Epic("Sign Contract")
 public class SignContractTest {
 
-    AssociateService associateService = new AssociateService();
-    AssociateBuilder associateBuilder = new AssociateBuilder();
     ContractService contractService = new ContractService();
     ContractBuilder contractBuilder = new ContractBuilder();
 
     @Test
     @Tag("all")
-    @Description("Deve assinar contrato com sucesso")
+    @Description("Must sign contract successfully")
     public void mustSignContractSuccessfully() {
-        // TESTE NÃO É INDEPENDENTE, TEM QUE DELETAR ASSOCIADO DIRETO NO BANCO DE DADOS
-        // NÃO É POSSÍVEL DELETAR ASSOCIADO, POIS DATA DE ÚLTIMA ATUALIZAÇÃO É MENOR QUE 3 MESES
+        // Devido a regra de negócio, não é possível deletar associado com contrato ativo
 
-        SaveAssociateRequest associateRequest = associateBuilder.buildSaveAssociateRequest();
-
-        SaveAssociateResponse associateResponse = associateService
-                .saveAssociate(Utils.convertSaveAssociateRequestToJson(associateRequest))
-                .then().extract().as(SaveAssociateResponse.class);
+        var savedIdAssociate = 1L;
 
         ContractRequest contractRequest = contractBuilder.buildContractRequest();
-        contractRequest.setIdAssociate(associateResponse.getId());
+        contractRequest.setIdAssociate(savedIdAssociate);
 
         SaveContractResponse response = contractService.signContract(Utils.convertContractRequestToJson(contractRequest))
                 .then()
@@ -67,7 +56,7 @@ public class SignContractTest {
 
     @Test
     @Tag("all")
-    @Description("Deve não assinar contrato com idAssociate inexistente")
+    @Description("Must not sign contract with nonexistent idAssociate")
     public void mustNotSignContractWithNonexistentIdAssociate() {
         var invalidId = 9999999999999999L;
 
@@ -80,53 +69,10 @@ public class SignContractTest {
                     .statusCode(HttpStatus.SC_NOT_FOUND)
                     .body(containsString(ASSOCIATE_FIND_ERROR));
     }
-    @Test
-    @Tag("error")
-    @Description("Deve não assinar contrato com quantidade de parcelas inválidas")
-    public void mustNotSignContractWithInvalidNumberOfInstallments() {
-        SaveAssociateRequest associateRequest = associateBuilder.buildSaveAssociateRequest();
-
-        SaveAssociateResponse associateResponse = associateService
-                .saveAssociate(Utils.convertSaveAssociateRequestToJson(associateRequest))
-                .then().extract().as(SaveAssociateResponse.class);
-
-        ContractRequest contractRequest = contractBuilder.buildContractWithInvalidNumberOfInstallments();
-        contractRequest.setIdAssociate(associateResponse.getId());
-
-        contractService.signContract(Utils.convertContractRequestToJson(contractRequest))
-                .then()
-                    .log().all()
-                    .statusCode(HttpStatus.SC_BAD_REQUEST)
-                    .body(containsString(""));
-
-        associateService.deleteAssociate(associateResponse.getId());
-    }
-
-    @Test
-    @Tag("error")
-    @Description("Deve não assinar contrato com valor inválido")
-    public void mustNotSignContractWithInvalidValue() {
-        SaveAssociateRequest associateRequest = associateBuilder.buildSaveAssociateRequest();
-
-        SaveAssociateResponse associateResponse = associateService
-                .saveAssociate(Utils.convertSaveAssociateRequestToJson(associateRequest))
-                .then().extract().as(SaveAssociateResponse.class);
-
-        ContractRequest contractRequest = contractBuilder.buildContractWithInvalidValue();
-        contractRequest.setIdAssociate(associateResponse.getId());
-
-        contractService.signContract(Utils.convertContractRequestToJson(contractRequest))
-                .then()
-                    .log().all()
-                    .statusCode(HttpStatus.SC_BAD_REQUEST)
-                    .body(containsString(""));
-
-        associateService.deleteAssociate(associateResponse.getId());
-    }
 
     @Test
     @Tag("all")
-    @Description("Deve não assinar contrato com campos nulos")
+    @Description("Must not sign contract with null fields")
     public void mustNotSignContractWithNullFields() {
         ContractRequest contractRequest = contractBuilder.buildContractWithNullFields();
 

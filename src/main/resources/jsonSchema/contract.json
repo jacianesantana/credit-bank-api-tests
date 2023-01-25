@@ -1,0 +1,103 @@
+{
+  "type": "object",
+  "required": [
+    "id",
+    "associate",
+    "product",
+    "value",
+    "paidOff",
+    "hireDate",
+    "expirationDate",
+    "installmentsPaid",
+    "installmentsRemaining",
+    "firstPaymentDate"
+  ],
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "associate": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "cpf",
+        "birthDate",
+        "phone",
+        "email",
+        "profession",
+        "salary",
+        "lastPaycheck"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "cpf": {
+          "type": "string"
+        },
+        "birthDate": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "profession": {
+          "type": "string"
+        },
+        "salary": {
+          "type": "number"
+        },
+        "lastPaycheck": {
+          "type": "string"
+        }
+      }
+    },
+    "product": {
+      "type": "object",
+      "required": [
+        "id",
+        "type",
+        "taxes"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "type": {
+          "type": "string"
+        },
+        "taxes": {
+          "type": "integer"
+        }
+      }
+    },
+    "value": {
+      "type": "number"
+    },
+    "paidOff": {
+      "type": "boolean"
+    },
+    "hireDate": {
+      "type": "string"
+    },
+    "expirationDate": {
+      "type": "string"
+    },
+    "installmentsPaid": {
+      "type": "integer"
+    },
+    "installmentsRemaining": {
+      "type": "integer"
+    },
+    "firstPaymentDate": {
+      "type": "string"
+    }
+  }
+}

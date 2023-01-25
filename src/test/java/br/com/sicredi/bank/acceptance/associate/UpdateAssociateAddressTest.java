@@ -1,11 +1,11 @@
 package br.com.sicredi.bank.acceptance.associate;
 
-import br.com.sicredi.bank.builder.associate.AddressBuilder;
-import br.com.sicredi.bank.builder.associate.AssociateBuilder;
-import br.com.sicredi.bank.dto.request.address.AddressRequest;
-import br.com.sicredi.bank.dto.request.associate.SaveAssociateRequest;
-import br.com.sicredi.bank.dto.response.address.AddressResponse;
-import br.com.sicredi.bank.dto.response.associate.SaveAssociateResponse;
+import br.com.sicredi.bank.factory.associate.AddressBuilder;
+import br.com.sicredi.bank.factory.associate.AssociateBuilder;
+import br.com.sicredi.bank.model.request.address.AddressRequest;
+import br.com.sicredi.bank.model.request.associate.SaveAssociateRequest;
+import br.com.sicredi.bank.model.response.address.AddressResponse;
+import br.com.sicredi.bank.model.response.associate.SaveAssociateResponse;
 import br.com.sicredi.bank.service.AssociateService;
 import br.com.sicredi.bank.utils.Utils;
 import io.qameta.allure.Description;
@@ -29,7 +29,7 @@ public class UpdateAssociateAddressTest {
 
     @Test
     @Tag("all")
-    @Description("Deve atualizar endereço do associado com sucesso")
+    @Description("Must update associate address successfully")
     public void mustUpdateAssociateAddressSuccessfully() {
         SaveAssociateRequest associateRequest = associateBuilder.buildSaveAssociateRequest();
 
@@ -66,7 +66,7 @@ public class UpdateAssociateAddressTest {
 
     @Test
     @Tag("all")
-    @Description("Deve não atualizar endereço do associado com idAssociate inexistente")
+    @Description("Must not update associate address with nonexistent idAssociate")
     public void mustNotUpdateAssociateAddressWithNonexistentIdAssociate() {
         var invalidId = 9999999999999999L;
 
@@ -81,7 +81,7 @@ public class UpdateAssociateAddressTest {
 
     @Test
     @Tag("all")
-    @Description("Deve não atualizar endereço do associado com id inexistente")
+    @Description("Must not update associate address with nonexistent id")
     public void mustNotUpdateAssociateAddressWithNonexistentId() {
         SaveAssociateRequest associateRequest = associateBuilder.buildSaveAssociateRequest();
 
@@ -106,7 +106,7 @@ public class UpdateAssociateAddressTest {
 
     @Test
     @Tag("all")
-    @Description("Deve não atualizar endereço que não está vinculado ao associado")
+    @Description("Must not update address that is not linked to the associate")
     public void mustNotUpdateAddressThatIsNotLinkedToTheAssociate() {
         SaveAssociateRequest associateOneRequest = associateBuilder.buildSaveAssociateRequest();
 
@@ -142,7 +142,7 @@ public class UpdateAssociateAddressTest {
 
     @Test
     @Tag("all")
-    @Description("Deve não atualizar endereço do associado sem preencher campos obrigatórios")
+    @Description("Must not update associate address with empty fields")
     public void mustNotUpdateAssociateAddressWithEmptyFields() {
         SaveAssociateRequest associateRequest = associateBuilder.buildSaveAssociateRequest();
 
@@ -176,7 +176,7 @@ public class UpdateAssociateAddressTest {
 
     @Test
     @Tag("all")
-    @Description("Deve não atualizar endereço do associado com campos nulos")
+    @Description("Must not update associate address with null fields")
     public void mustNotUpdateAssociateAddressWithNullFields() {
         SaveAssociateRequest associateRequest = associateBuilder.buildSaveAssociateRequest();
 

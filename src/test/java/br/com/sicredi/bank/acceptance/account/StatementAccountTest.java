@@ -1,16 +1,16 @@
 package br.com.sicredi.bank.acceptance.account;
 
-import br.com.sicredi.bank.builder.account.AccountBuilder;
-import br.com.sicredi.bank.builder.associate.AssociateBuilder;
-import br.com.sicredi.bank.builder.transaction.TransactionBuilder;
-import br.com.sicredi.bank.dto.enums.TransactionType;
-import br.com.sicredi.bank.dto.request.account.AccountRequest;
-import br.com.sicredi.bank.dto.request.associate.SaveAssociateRequest;
-import br.com.sicredi.bank.dto.request.transaction.DepositTransactionRequest;
-import br.com.sicredi.bank.dto.request.transaction.TransferTransactionRequest;
-import br.com.sicredi.bank.dto.request.transaction.WithdrawTransactionRequest;
-import br.com.sicredi.bank.dto.response.account.StatementAccountResponse;
-import br.com.sicredi.bank.dto.response.associate.SaveAssociateResponse;
+import br.com.sicredi.bank.factory.account.AccountBuilder;
+import br.com.sicredi.bank.factory.associate.AssociateBuilder;
+import br.com.sicredi.bank.factory.transaction.TransactionBuilder;
+import br.com.sicredi.bank.model.enums.TransactionType;
+import br.com.sicredi.bank.model.request.account.AccountRequest;
+import br.com.sicredi.bank.model.request.associate.SaveAssociateRequest;
+import br.com.sicredi.bank.model.request.transaction.DepositTransactionRequest;
+import br.com.sicredi.bank.model.request.transaction.TransferTransactionRequest;
+import br.com.sicredi.bank.model.request.transaction.WithdrawTransactionRequest;
+import br.com.sicredi.bank.model.response.account.StatementAccountResponse;
+import br.com.sicredi.bank.model.response.associate.SaveAssociateResponse;
 import br.com.sicredi.bank.service.AccountService;
 import br.com.sicredi.bank.service.AssociateService;
 import br.com.sicredi.bank.service.TransactionService;
@@ -41,11 +41,12 @@ public class StatementAccountTest {
 
     @Test
     @Tag("all")
-    @Description("Deve buscar extrato de conta com sucesso")
+    @Description("Must find account statement successfully")
     public void mustFindAccountStatementSuccessfully() {
         SaveAssociateRequest saveRequest = associateBuilder.buildSaveAssociateRequest();
 
-        SaveAssociateResponse associateResponse = associateService.saveAssociate(Utils.convertSaveAssociateRequestToJson(saveRequest))
+        SaveAssociateResponse associateResponse = associateService
+                .saveAssociate(Utils.convertSaveAssociateRequestToJson(saveRequest))
                 .then().extract().as(SaveAssociateResponse.class);
 
         AccountRequest accountRequest = accountBuilder.buildAccountRequest();
@@ -95,7 +96,7 @@ public class StatementAccountTest {
 
     @Test
     @Tag("all")
-    @Description("Deve buscar extrato de conta sem transações com sucesso")
+    @Description("Must find empty account statement successfully")
     public void mustFindEmptyAccountStatementSuccessfully() {
         SaveAssociateRequest saveRequest = associateBuilder.buildSaveAssociateRequest();
 
@@ -119,7 +120,7 @@ public class StatementAccountTest {
 
     @Test
     @Tag("all")
-    @Description("Deve não buscar extrato de conta com id inexistente")
+    @Description("Must not find account statement with nonexistent id")
     public void mustNotFindAccountStatementWithNonexistentId() {
         var invalidId = 9999999999999999L;
 
